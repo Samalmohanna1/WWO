@@ -47,7 +47,7 @@ const wwo = [
 				<li>
 					{day.status === 'launched' ? (
 						<a
-							href={day.url}
+							href={day.url.toLowerCase()}
 							aria-label={`wwo submission - ${day.url}`}
 							class='link launched'
 						>

@@ -1,4 +1,7 @@
 ---
+import Footer from '../components/Footer.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
 const wwo = [
 	{ id: 1, url: 'Transparency', status: 'launched' },
 	{ id: 2, url: 'Map', status: 'coming soon' },
@@ -34,73 +37,58 @@ const wwo = [
 ]
 ---
 
-<html lang='en'>
-	<head>
-		<meta charset='utf-8' />
-		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-		<meta name='viewport' content='width=device-width' />
-		<meta name='generator' content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<div class='main-header'>
-			<h1>Weird Web October</h1>
-			<p>
-				Making something spooky, and fun everyday in October &#129310;
-			</p>
-		</div>
-		<ul class='link-group'>
-			{
-				wwo.map((day) => (
-					<li>
-						{day.status === 'launched' ? (
-							<a
-								href={day.url}
-								target='_blank'
-								rel='noopener noreferrer'
-								aria-label={`wwo submission - ${day.url}`}
-								class='link launched'
-							>
-								Day {day.id} - {day.url}
-							</a>
-						) : (
-							<span class='link coming-soon'>
-								Day {day.id} - {day.url}
-								<span class='status-tag'>Coming Soon</span>
-							</span>
-						)}
-					</li>
-				))
-			}
-		</ul>
-	</body>
-</html>
+<BaseLayout title=''>
+	<div class='main-header'>
+		<h1>Weird Web October</h1>
+		<p>Making something spooky, and fun everyday in October &#129310;</p>
+	</div>
+	<ul class='link-group'>
+		{
+			wwo.map((day) => (
+				<li>
+					{day.status === 'launched' ? (
+						<a
+							href={day.url}
+							target='_blank'
+							rel='noopener noreferrer'
+							aria-label={`wwo submission - ${day.url}`}
+							class='link launched'
+						>
+							Day {day.id} - {day.url}
+						</a>
+					) : (
+						<span class='link coming-soon'>
+							Day {day.id} - {day.url}
+							<span class='status-tag'>Coming Soon</span>
+						</span>
+					)}
+				</li>
+			))
+		}
+	</ul>
+	<Footer />
+</BaseLayout>
 
 <style>
-	html {
-		font-size: 18px;
-		font-family: sans-serif;
-		background-color: rgb(21, 15, 34);
-		color: rgb(247, 238, 226);
-	}
-
 	.main-header {
+		display: grid;
+		justify-content: center;
 		text-align: center;
-		text-wrap: balance;
-		padding: 4em 2em;
+		padding: var(--spacing-xl) var(--spacing-s);
 		& h1 {
-			font-size: clamp(2rem, 2.5vw, 4rem);
+			font-size: var(--text-step-4);
 			font-weight: 800;
+			padding-bottom: var(--spacing-s);
 		}
 	}
 
 	.link-group {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1em;
+		gap: var(--spacing-s);
 		max-width: 1400px;
 		margin-inline: auto;
-		padding: 2em;
+		padding: var(--spacing-xl) var(--spacing-s);
 	}
 
 	.link-group li {
@@ -111,17 +99,15 @@ const wwo = [
 	.link {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
 		justify-content: center;
-		width: 100%; /* Full width of grid cell */
+		width: 100%;
 		min-height: 8em;
-		padding: 2em;
-		background-color: rgb(247, 238, 226);
-		color: rgb(21, 15, 34);
+		padding: var(--spacing-s);
+		background-color: var(--white-400);
+		color: var(--black-600);
 		text-decoration: none;
-		box-sizing: border-box;
 		font-weight: bold;
-		font-size: 1.3em;
+		font-size: var(--text-step-0);
 		position: relative;
 		transition:
 			background 0.2s,
@@ -129,26 +115,25 @@ const wwo = [
 	}
 
 	.link.launched:hover {
-		background-color: rgb(255, 233, 160);
+		background-color: var(--orange-400);
 	}
 
 	.link.coming-soon {
 		opacity: 0.6;
 		pointer-events: none;
-		color: #302f2f;
-		background-color: #ccccccbb;
+		color: var(--black-500);
+		background-color: var(--white-800);
 		cursor: not-allowed;
 		position: relative;
 	}
 
 	.status-tag {
-		background: rgb(14, 39, 151);
-		color: #fff;
-		padding: 0.25em 0.7em;
-		font-size: 0.8rem;
+		background: var(--lime-400);
+		color: var(--black-600);
+		padding: var(--spacing-3xs) var(--spacing-xs);
+		font-size: var(--text-step--2);
 		font-weight: normal;
-		border-radius: 2em;
-		margin-top: 0.6em;
+		border-radius: var(--spacing-3xs);
 		position: absolute;
 		bottom: 1em;
 		right: 1em;

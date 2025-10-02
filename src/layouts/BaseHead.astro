@@ -1,0 +1,56 @@
+---
+import baseData from '../data/baseData'
+import '../styles/global.css'
+
+const title = Astro.props.title || baseData.title
+const description = Astro.props.description || baseData.description
+const canonicalURL = Astro.props.canonicalURL || Astro.url.href
+const image = Astro.props.image || baseData.ogImage
+---
+
+<meta charset='utf-8' />
+<meta
+	name='viewport'
+	content='width=device-width, initial-scale=1, viewport-fit=cover'
+/>
+
+<!-- Primary Meta Tags -->
+<meta name='title' content={title || baseData.title} />
+<meta name='description' content={description || baseData.description} />
+<meta name='author' content='Sam Almohanna' />
+<link rel='icon' href='/favicon.svg' />
+
+<title>{title || baseData.title}</title>
+
+<!-- RSS -->
+<link
+	rel='alternate'
+	type='application/rss+xml'
+	title={`${baseData.title} Blog`}
+	href={`${baseData.url}/feed/blog.xml`}
+/>
+<!-- Canonical -->
+<link rel='canonical' href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property='og:type' content='website' />
+<meta property='og:url' content={canonicalURL} />
+<meta property='og:title' content={title} />
+<meta property='og:description' content={description} />
+<meta property='og:image' content={image} />
+
+<!-- Twitter -->
+<meta property='twitter:card' content='summary_large_image' />
+<meta property='twitter:url' content={canonicalURL} />
+<meta property='twitter:title' content={title} />
+<meta property='twitter:description' content={description} />
+<meta property='twitter:image' content={image} />
+
+<!-- <script>
+	import posthog from 'posthog-js'
+
+	posthog.init('phc_94ik1KYUWEhH8mOK7Y3c4eSuq8nxZlayUtrPl3yF9N1', {
+		api_host: 'https://us.i.posthog.com',
+		person_profiles: 'always',
+	})
+</script> -->

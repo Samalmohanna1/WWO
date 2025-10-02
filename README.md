@@ -1,43 +1,26 @@
-# Astro Starter Kit: Minimal
+# Weird Web October - Submission Hub
 
-```sh
-npm create astro@latest -- --template minimal
-```
+This project serves as a central site to showcase all submissions made for the Weird Web October challenge. Each submission is represented as a link in a responsive grid, with dynamic status indicators showing whether a submission is live or coming soon.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Features
 
-## 🚀 Project Structure
+-   Responsive grid layout that adjusts columns based on screen size, stacking on smaller devices.
+-   Each submission link shows its current status:
+    -   **Launched**: Clickable links leading to the live submission page.
+    -   **Coming Soon**: Non-clickable links with a semi-transparent background, dashed border, and a "Coming Soon" tag.
+-   Automatically updates as new submissions are added.
+-   Simple data-driven approach for easy management of submission status and URLs.
 
-Inside of your Astro project, you'll see the following folders and files:
+## How to Use
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+1. Add each new submission page URL and status (`launched` or `coming soon`) to the `wwo` data array.
+2. The grid will automatically update to reflect all current submissions.
+3. Click on launched submissions to view them; coming soon submissions are visually distinct and not clickable.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## About Weird Web October
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+This site is part of the Weird Web October challenge, a creative daily web development event throughout October encouraging fun and spooky projects.
 
-Any static assets, like images, can be placed in the `public/` directory.
+---
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Made with 🕸️ and ☕ by Sam Almohanna.

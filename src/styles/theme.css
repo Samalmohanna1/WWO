@@ -99,4 +99,7 @@
     --spacing-xl: clamp(3.375rem, 3.0981rem + 1.3846vw, 4.5rem);
     --spacing-2xl: clamp(4.5rem, 4.1308rem + 1.8462vw, 6rem);
     --spacing-3xl: clamp(6.75rem, 6.1962rem + 2.7692vw, 9rem);
+
+    /*Containers*/
+    --max-content-w: 1400px;
 }

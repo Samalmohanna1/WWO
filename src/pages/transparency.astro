@@ -1,7 +1,98 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { Image } from 'astro:assets'
+import heroImg from '../assets/browser-hero.webp'
+import revealImg from '../assets/browser-reveal.webp'
 ---
 
-<section>
-	<h1>transparency</h1>
-</section>
+<BaseLayout title='Transparency | Oct 1st'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 1 Transparency</h1>
+			<button class='btn'>Click for Transparency</button>
+		</div>
+		<div class='img-stack'>
+			<Image class='hero' src={heroImg} alt='hero image.' />
+			<Image class='reveal' src={revealImg} alt='reveal image.' />
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: calc(var(--max-content-w) / 1.4);
+		margin-inline: auto;
+		padding: var(--spacing-l) var(--spacing-s);
+	}
+	.controls {
+		display: flex;
+		gap: var(--spacing-l);
+		align-items: center;
+		padding-block: var(--spacing-s);
+	}
+	.heading {
+		font-size: var(--text-step--2);
+		font-weight: normal;
+		padding-block: var(--spacing-xs);
+		text-align: center;
+	}
+	.btn {
+		padding: var(--spacing-2xs) var(--spacing-s);
+		background-color: var(--lavender-400);
+		border: none;
+		border-radius: var(--spacing-3xs);
+		font-weight: 600;
+		cursor: pointer;
+		transition:
+			background 0.2s,
+			color 0.2s;
+	}
+	.btn:hover {
+		background-color: var(--lavender-500);
+	}
+	.img-stack {
+		position: relative;
+		width: 100%;
+		& img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+	}
+	.hero {
+		position: relative;
+		z-index: 5;
+		opacity: 1;
+		filter: blur(0px);
+		transition:
+			opacity 0.8s ease-in-out,
+			filter 0.8s ease-in-out;
+	}
+	.hero.fade-out {
+		opacity: 0;
+		filter: blur(10px);
+	}
+	.reveal {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+</style>
+<script>
+	function setupTransparencyButton() {
+		const btn = document.querySelector('.btn')
+		const hero = document.querySelector('.hero')
+
+		btn?.addEventListener('click', () => {
+			hero?.classList.add('fade-out')
+
+			setTimeout(() => {
+				hero?.classList.remove('fade-out')
+			}, 5000)
+		})
+	}
+
+	setupTransparencyButton()
+
+	document.addEventListener('astro:page-load', setupTransparencyButton)
+</script>

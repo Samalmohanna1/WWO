@@ -5,7 +5,9 @@ const currentYear = new Date().getFullYear()
 
 <footer>
 	<div class='content'>
-		<p class='large-header'>&#127875; WWO &#128123;</p>
+		<a href='/' aria-label='home' class='large-header'
+			>&#127875; WWO &#128123;</a
+		>
 		<nav class='footer-content'>
 			<a
 				href={baseData.portfolioURL}
@@ -37,11 +39,16 @@ const currentYear = new Date().getFullYear()
 		margin-inline: auto;
 	}
 	.large-header {
-		font-size: clamp(32px, 10cqw, 150px);
+		font-size: clamp(32px, 8cqw, 100px);
+		font-weight: 800;
 		text-align: center;
 		text-transform: uppercase;
-		font-weight: 800;
+		text-decoration: none;
+		color: inherit;
 		padding-block: var(--spacing-xl);
+	}
+	.large-header:hover {
+		color: var(--orange-500);
 	}
 
 	.footer-content {

@@ -1,16 +1,79 @@
 ---
-
+const wwo = [
+	{
+		id: 1,
+		url: 'transparency',
+	},
+	{
+		id: 2,
+		url: 'map',
+	},
+	{
+		id: 3,
+		url: 'scramble',
+	},
+]
 ---
 
-<html lang="en">
+<html lang='en'>
 	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
+		<meta charset='utf-8' />
+		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+		<meta name='viewport' content='width=device-width' />
+		<meta name='generator' content={Astro.generator} />
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<div class='main-header'>
+			<h1>Weird Web October</h1>
+			<p>
+				Making something spooky, and fun everyday in October &#129310;
+			</p>
+		</div>
+		<ul class='link-group'>
+			{
+				wwo.map((day) => (
+					<li>
+						<a
+							href={day.url}
+							target='_blank'
+							rel='noopener noreferrer'
+							aria-label={`wwo submission - ${day.url}`}
+							class='link'
+						>
+							Day {day.id} - {day.url}
+						</a>
+					</li>
+				))
+			}
+		</ul>
 	</body>
 </html>
+
+<style>
+	html {
+		font-size: 18px;
+		font-family: sans-serif;
+		background-color: rgb(21, 15, 34);
+		color: rgb(247, 238, 226);
+	}
+
+	.main-header {
+		text-align: center;
+		text-wrap: balance;
+		padding: 4em 2em;
+		& h1 {
+			font-size: clamp(2rem, 2.5vw, 4rem);
+			font-weight: 800;
+		}
+	}
+
+	.link-group {
+		display: grid;
+		grid-template-columns: repeat(4, 300px);
+		max-width: 1400px;
+		margin-inline: auto;
+		padding-block: 4em;
+		border: 2px dashed red;
+	}
+</style>

@@ -1,5 +1,4 @@
 ---
-import Footer from '../components/Footer.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 
 const wwo = [
@@ -49,8 +48,6 @@ const wwo = [
 					{day.status === 'launched' ? (
 						<a
 							href={day.url}
-							target='_blank'
-							rel='noopener noreferrer'
 							aria-label={`wwo submission - ${day.url}`}
 							class='link launched'
 						>
@@ -66,7 +63,6 @@ const wwo = [
 			))
 		}
 	</ul>
-	<Footer />
 </BaseLayout>
 
 <style>

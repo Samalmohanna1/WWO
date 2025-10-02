@@ -1,0 +1,75 @@
+---
+import baseData from '../data/baseData.js'
+const currentYear = new Date().getFullYear()
+---
+
+<footer>
+	<div class='content'>
+		<p class='large-header'>&#127875; WWO &#128123;</p>
+		<nav class='footer-content'>
+			<a
+				href={baseData.portfolioURL}
+				target='_blank'
+				rel='noopener noreferrer'
+				aria-label=`Sam's portfolio`
+				class='footer-link'
+				>Made with &#128376; and &#9749; by Sam Almohanna <span
+					class='arrow'>&#8599;</span
+				></a
+			>
+			<p class='copyright'>
+				Copyright &copy; {currentYear} - All rights reserved
+			</p>
+		</nav>
+	</div>
+</footer>
+
+<style>
+	footer {
+		background-color: var(--black-900);
+	}
+	.content {
+		display: flex;
+		flex-direction: column;
+		padding-inline: var(--spacing-s);
+		max-width: 1400px;
+		width: 100%;
+		margin-inline: auto;
+	}
+	.large-header {
+		font-size: clamp(32px, 10cqw, 150px);
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: 800;
+		padding-block: var(--spacing-xl);
+	}
+
+	.footer-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	.footer-link {
+		text-decoration: none;
+		padding-block: var(--spacing-2xs);
+		color: var(--white-300);
+	}
+	.footer-link:hover {
+		text-decoration: underline;
+		text-underline-position: under;
+	}
+	.arrow {
+		font-size: var(--text-step-0);
+	}
+	.copyright {
+		font-size: var(--text-step--1);
+		padding-block: var(--spacing-2xs);
+	}
+
+	@media (min-width: 1000px) {
+		.footer-content {
+			flex-direction: row;
+			gap: 0;
+		}
+	}
+</style>

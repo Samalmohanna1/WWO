@@ -1,0 +1,102 @@
+:root {
+    /* Colors */
+    --black-50: hsla(0, 4%, 95%, 1);
+    --black-100: hsla(0, 0%, 86%, 1);
+    --black-200: hsla(0, 1%, 67%, 1);
+    --black-300: hsla(0, 1%, 47%, 1);
+    --black-400: hsla(0, 3%, 28%, 1);
+    --black-500: hsla(0, 9%, 9%, 1);
+    --black-600: hsla(0, 10%, 8%, 1);
+    --black-700: hsla(0, 9%, 7%, 1);
+    --black-800: hsla(0, 10%, 6%, 1);
+    --black-900: hsla(0, 8%, 5%, 1);
+
+    --white-50: hsla(60, 33%, 99%, 1);
+    --white-100: hsla(40, 43%, 99%, 1);
+    --white-200: hsla(45, 50%, 97%, 1);
+    --white-300: hsla(42, 52%, 95%, 1);
+    --white-400: hsla(46, 49%, 93%, 1);
+    --white-500: hsla(44, 50%, 91%, 1);
+    --white-600: hsla(42, 20%, 80%, 1);
+    --white-700: hsla(45, 10%, 69%, 1);
+    --white-800: hsla(43, 6%, 57%, 1);
+    --white-900: hsla(44, 5%, 46%, 1);
+
+    --lavender-50: hsla(240, 50%, 98%, 1);
+    --lavender-100: hsla(245, 46%, 95%, 1);
+    --lavender-200: hsla(242, 44%, 88%, 1);
+    --lavender-300: hsla(241, 44%, 81%, 1);
+    --lavender-400: hsla(242, 44%, 74%, 1);
+    --lavender-500: hsla(242, 43%, 67%, 1);
+    --lavender-600: hsla(242, 30%, 59%, 1);
+    --lavender-700: hsla(242, 21%, 51%, 1);
+    --lavender-800: hsla(241, 21%, 42%, 1);
+    --lavender-900: hsla(242, 21%, 34%, 1);
+
+    --lime-50: hsla(66, 71%, 97%, 1);
+    --lime-100: hsla(69, 76%, 92%, 1);
+    --lime-200: hsla(69, 76%, 81%, 1);
+    --lime-300: hsla(69, 76%, 69%, 1);
+    --lime-400: hsla(69, 76%, 58%, 1);
+    --lime-500: hsla(69, 85%, 47%, 1);
+    --lime-600: hsla(69, 85%, 41%, 1);
+    --lime-700: hsla(69, 85%, 35%, 1);
+    --lime-800: hsla(69, 85%, 29%, 1);
+    --lime-900: hsla(69, 85%, 24%, 1);
+
+    --orange-50: hsla(22, 100%, 98%, 1);
+    --orange-100: hsla(21, 89%, 93%, 1);
+    --orange-200: hsla(21, 90%, 84%, 1);
+    --orange-300: hsla(21, 91%, 75%, 1);
+    --orange-400: hsla(21, 91%, 66%, 1);
+    --orange-500: hsla(21, 91%, 56%, 1);
+    --orange-600: hsla(21, 70%, 49%, 1);
+    --orange-700: hsla(21, 70%, 42%, 1);
+    --orange-800: hsla(21, 70%, 35%, 1);
+    --orange-900: hsla(21, 70%, 28%, 1);
+
+    --pink-50: hsla(315, 100%, 99%, 1);
+    --pink-100: hsla(318, 83%, 98%, 1);
+    --pink-200: hsla(318, 86%, 95%, 1);
+    --pink-300: hsla(317, 87%, 91%, 1);
+    --pink-400: hsla(318, 87%, 88%, 1);
+    --pink-500: hsla(318, 87%, 85%, 1);
+    --pink-600: hsla(318, 45%, 74%, 1);
+    --pink-700: hsla(318, 28%, 64%, 1);
+    --pink-800: hsla(317, 18%, 53%, 1);
+    --pink-900: hsla(318, 15%, 43%, 1);
+
+    /* Font Sizes */
+    --text-step--2: clamp(0.72rem, 0.6609rem + 0.2954vw, 0.96rem);
+    --text-step--1: clamp(0.9rem, 0.8262rem + 0.3692vw, 1.2rem);
+    --text-step-0: clamp(1.125rem, 1.0327rem + 0.4615vw, 1.5rem);
+    --text-step-1: clamp(1.4063rem, 1.2909rem + 0.5769vw, 1.875rem);
+    --text-step-2: clamp(1.7578rem, 1.6136rem + 0.7212vw, 2.3438rem);
+    --text-step-3: clamp(2.1973rem, 2.017rem + 0.9014vw, 2.9297rem);
+    --text-step-4: clamp(2.7466rem, 2.5212rem + 1.1268vw, 3.6621rem);
+    --text-step-5: clamp(3.4332rem, 3.1515rem + 1.4085vw, 4.5776rem);
+    --text-step-6: clamp(4.2915rem, 3.9394rem + 1.7606vw, 5.722rem);
+    --text-step-7: clamp(5.3644rem, 4.9243rem + 2.2008vw, 7.1526rem);
+    --text-step-8: clamp(6.7055rem, 6.1553rem + 2.751vw, 8.9407rem);
+
+    /* Letter Spacing */
+    --letter-spacing-3xs: -.15em;
+    --letter-spacing-2xs: -.05em;
+    --letter-spacing-xs: -.025em;
+    --letter-spacing-s: 0;
+    --letter-spacing-m: .025em;
+    --letter-spacing-l: .05em;
+    --letter-spacing-xl: .15em;
+    --letter-spacing-2xl: .2em;
+
+    /* Spacing */
+    --spacing-3xs: clamp(0.3125rem, 0.2971rem + 0.0769vw, 0.375rem);
+    --spacing-2xs: clamp(0.5625rem, 0.5163rem + 0.2308vw, 0.75rem);
+    --spacing-xs: clamp(0.875rem, 0.8135rem + 0.3077vw, 1.125rem);
+    --spacing-s: clamp(1.125rem, 1.0327rem + 0.4615vw, 1.5rem);
+    --spacing-m: clamp(1.6875rem, 1.549rem + 0.6923vw, 2.25rem);
+    --spacing-l: clamp(2.25rem, 2.0654rem + 0.9231vw, 3rem);
+    --spacing-xl: clamp(3.375rem, 3.0981rem + 1.3846vw, 4.5rem);
+    --spacing-2xl: clamp(4.5rem, 4.1308rem + 1.8462vw, 6rem);
+    --spacing-3xl: clamp(6.75rem, 6.1962rem + 2.7692vw, 9rem);
+}

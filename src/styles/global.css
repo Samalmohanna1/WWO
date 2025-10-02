@@ -1,0 +1,17 @@
+@import url("./reset.css");
+@import url("./theme.css");
+
+
+body {
+    color: var(--white-400);
+    background-color: var(--black-700);
+    transition:
+        color 0.5s,
+        background-color 0.5s;
+    font-family: sans-serif;
+    line-height: 1.5;
+    text-wrap: pretty;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

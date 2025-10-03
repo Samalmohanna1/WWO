@@ -2,6 +2,7 @@
 import BaseHead from './BaseHead.astro'
 import { ClientRouter } from 'astro:transitions'
 import Footer from '../components/Footer.astro'
+import Navbar from '../components/Navbar.astro'
 
 type Props = {
 	title: string
@@ -19,9 +20,18 @@ const { title, description, image } = Astro.props as Props
 		<BaseHead title={title} description={description} image={image} />
 		<ClientRouter />
 	</head>
-	<body>
-		<slot />
-
+	<body class='full-body'>
+		<Navbar />
+		<div><slot /></div>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.full-body {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 100dvh;
+	}
+</style>

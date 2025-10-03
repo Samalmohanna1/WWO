@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import wwoData from '../data/wwoData'
+
+const launchedPages = wwoData.wwo.filter((page) => page.status === 'launched')
+---
+
+<BaseLayout title='Map | Oct 2nd'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 2 Map</h1>
+		</div>
+
+		<div class='terminal'>
+			<div class='terminal-header'>
+				<span class='terminal-title'>sitemap.txt</span>
+			</div>
+			<div class='terminal-body'>
+				<div class='terminal-line'>
+					<span class='prompt'>$</span>
+					<span class='command'>ls -la /pages</span>
+				</div>
+				<div class='output'>
+					{
+						launchedPages.map((page) => (
+							<div class='file-entry'>
+								<span class='permissions'>-rw-r--r--</span>
+								<span class='owner'>sleepysam</span>
+								<span class='size'>
+									{Math.floor(Math.random() * 900 + 100)}B
+								</span>
+								<span class='date'>Oct {page.id}</span>
+								<a
+									href={`/${page.url.toLowerCase()}`}
+									class='filename'
+								>
+									{page.url}
+								</a>
+							</div>
+						))
+					}
+				</div>
+				<div class='terminal-line'>
+					<span class='prompt'>$</span>
+					<span class='cursor'>_</span>
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: calc(var(--max-content-w) / 1.4);
+		margin-inline: auto;
+		padding: var(--spacing-l) var(--spacing-s);
+	}
+	.controls {
+		display: flex;
+		gap: var(--spacing-l);
+		align-items: center;
+		padding-block: var(--spacing-s);
+	}
+	.heading {
+		font-size: var(--text-step--2);
+		font-weight: normal;
+		padding-block: var(--spacing-xs);
+		text-align: center;
+	}
+
+	.terminal {
+		background: var(--black-500);
+		border-radius: var(--spacing-3xs);
+		overflow: hidden;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+		font-family: 'Courier New', Courier, monospace;
+		margin-top: var(--spacing-m);
+	}
+
+	.terminal-header {
+		background: var(--black-400);
+		padding: var(--spacing-2xs) var(--spacing-xs);
+		border-bottom: 1px solid var(--black-300);
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs);
+	}
+
+	.terminal-header::before {
+		content: '● ● ●';
+		color: var(--black-200);
+		font-size: 12px;
+		letter-spacing: -1px;
+	}
+
+	.terminal-title {
+		color: var(--black-100);
+		font-size: var(--text-step--2);
+	}
+
+	.terminal-body {
+		padding: var(--spacing-xs);
+		color: var(--black-100);
+		font-size: var(--text-step--2);
+		line-height: 1.6;
+	}
+
+	.terminal-line {
+		display: flex;
+		gap: var(--spacing-xs);
+		margin-bottom: 12px;
+	}
+
+	.prompt {
+		color: var(--lime-500);
+		font-weight: bold;
+	}
+
+	.command {
+		color: var(--lime-500);
+	}
+
+	.output {
+		margin-left: 0;
+		margin-bottom: 12px;
+	}
+
+	.file-entry {
+		display: grid;
+		grid-template-columns: 80px 80px 40px 50px 1fr;
+		gap: var(--spacing-xs);
+		padding: 2px 0;
+		font-size: 13px;
+	}
+
+	.permissions {
+		color: var(--black-200);
+	}
+
+	.size {
+		color: var(--lime-500);
+	}
+
+	.owner {
+		color: var(--lavender-400);
+	}
+
+	.date {
+		color: var(--orange-300);
+	}
+
+	.filename {
+		color: var(--pink-500);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	.filename:hover {
+		color: var(--pink-600);
+		text-decoration: underline;
+	}
+
+	.cursor {
+		color: var(--lime-500);
+		animation: blink 1s step-end infinite;
+	}
+
+	@keyframes blink {
+		0%,
+		50% {
+			opacity: 1;
+		}
+		51%,
+		100% {
+			opacity: 0;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.file-entry {
+			grid-template-columns: 70px 65px 35px 38px 1fr;
+			gap: 6px;
+			font-size: 11px;
+		}
+
+		.terminal-body {
+			padding: 12px;
+			font-size: 12px;
+		}
+	}
+</style>

@@ -1,0 +1,18 @@
+---
+import ScramblePuzzle from '../components/ScramblePuzzle'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Scramble | Oct 3rd'>
+	<section class='container'>
+		<ScramblePuzzle client:load />
+	</section>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: calc(var(--max-content-w) / 1.4);
+		margin-inline: auto;
+		padding: var(--spacing-s);
+	}
+</style>

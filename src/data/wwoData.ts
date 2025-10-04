@@ -2,7 +2,7 @@ export default {
     wwo: [
         { id: 1, url: 'Transparency', status: 'launched' },
         { id: 2, url: 'Map', status: 'launched' },
-        { id: 3, url: 'Scramble', status: 'coming soon' },
+        { id: 3, url: 'Scramble', status: 'launched' },
         { id: 4, url: 'Filters', status: 'coming soon' },
         { id: 5, url: 'Remix', status: 'coming soon' },
         { id: 6, url: 'Solids', status: 'coming soon' },

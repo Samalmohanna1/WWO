@@ -13,10 +13,20 @@ export default function ScramblePuzzle() {
 	const [pieces, setPieces] = useState<PuzzlePiece[]>([])
 	const [draggedPiece, setDraggedPiece] = useState<PuzzlePiece | null>(null)
 	const [isComplete, setIsComplete] = useState<boolean>(false)
+	const [pieceSize, setPieceSize] = useState<number>(200)
 
 	useEffect(() => {
 		scramblePuzzle()
+		updatePieceSize()
+		window.addEventListener('resize', updatePieceSize)
+		return () => window.removeEventListener('resize', updatePieceSize)
 	}, [])
+
+	const updatePieceSize = (): void => {
+		const containerWidth = Math.min(window.innerWidth - 40, 700)
+		const newSize = Math.floor(Math.min(containerWidth / 3, 200))
+		setPieceSize(newSize)
+	}
 
 	const scramblePuzzle = (): void => {
 		const positions = Array.from({ length: TOTAL_PIECES }, (_, i) => i)
@@ -89,6 +99,8 @@ export default function ScramblePuzzle() {
 		return pieces.find((p) => p.currentPosition === position)
 	}
 
+	const totalSize = pieceSize * GRID_SIZE
+
 	return (
 		<div className='puzzle-container'>
 			<style>{`
@@ -100,18 +112,18 @@ export default function ScramblePuzzle() {
         
         .puzzle-grid {
           display: grid;
-          grid-template-columns: repeat(3, 200px);
-          grid-template-rows: repeat(3, 200px);
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: repeat(3, 1fr);
           gap: 0;
-          margin: var(--spacing-s) 0;
-          width: 600px;
-          height: 600px;
+          margin: var(--spacing-s) auto;
+          width: ${totalSize}px;
+          height: ${totalSize}px;
           background: var(--lavender-500);
         }
         
         .puzzle-slot {
-          width: 200px;
-          height: 200px;
+          width: 100%;
+          height: 100%;
           border: 1px solid var(--lavender-500);
         }
         
@@ -159,30 +171,32 @@ export default function ScramblePuzzle() {
         
         .scramble-btn {
           padding: var(--spacing-2xs) var(--spacing-s);
-			background-color: var(--lavender-400);
-			border: none;
-			border-radius: var(--spacing-3xs);
-			font-weight: 600;
-			cursor: pointer;
-			transition:
-				background 0.2s,
-				color 0.2s;
+          background-color: var(--lavender-400);
+          border: none;
+          border-radius: var(--spacing-3xs);
+          font-weight: 600;
+          cursor: pointer;
+          transition:
+            background 0.2s,
+            color 0.2s;
         }
         
         .scramble-btn:hover {
-			background-color: var(--lavender-500);
+          background-color: var(--lavender-500);
         }
-			.controls {
-		display: flex;
-		gap: var(--spacing-l);
-		align-items: center;
-	}
-	.heading {
-		font-size: var(--text-step--2);
-		font-weight: normal;
-		padding-block: var(--spacing-xs);
-		text-align: center;
-	}
+        
+        .controls {
+          display: flex;
+          gap: var(--spacing-l);
+          align-items: center;
+        }
+        
+        .heading {
+          font-size: var(--text-step--2);
+          font-weight: normal;
+          padding-block: var(--spacing-xs);
+          text-align: center;
+        }
       `}</style>
 			<div className='controls'>
 				<h1 className='heading'>Day 3 Scramble</h1>
@@ -207,8 +221,6 @@ export default function ScramblePuzzle() {
 
 					const row = Math.floor(piece.originalPosition / GRID_SIZE)
 					const col = piece.originalPosition % GRID_SIZE
-					const pieceSize = 200
-					const totalSize = pieceSize * GRID_SIZE
 
 					return (
 						<div

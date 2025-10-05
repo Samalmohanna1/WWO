@@ -76,18 +76,25 @@ import revealImg from '../assets/browser-reveal.webp'
 		position: absolute;
 		inset: 0;
 		z-index: 1;
+		opacity: 0;
+	}
+	.reveal.fade-in {
+		opacity: 1;
 	}
 </style>
 <script>
 	function setupTransparencyButton() {
 		const btn = document.querySelector('.btn')
 		const hero = document.querySelector('.hero')
+		const reveal = document.querySelector('.reveal')
 
 		btn?.addEventListener('click', () => {
 			hero?.classList.add('fade-out')
+			reveal?.classList.add('fade-in')
 
 			setTimeout(() => {
 				hero?.classList.remove('fade-out')
+				reveal?.classList.remove('fade-in')
 			}, 5000)
 		})
 	}

@@ -106,7 +106,6 @@ export default function ScramblePuzzle() {
 			<style>{`
         .puzzle-container {
           max-width: 700px;
-          margin: 0 auto;
           padding: var(--spacing-3xs);
         }
         
@@ -115,7 +114,6 @@ export default function ScramblePuzzle() {
           grid-template-columns: repeat(3, 1fr);
           grid-template-rows: repeat(3, 1fr);
           gap: 0;
-          margin: var(--spacing-s) auto;
           width: ${totalSize}px;
           height: ${totalSize}px;
           background: var(--lavender-500);

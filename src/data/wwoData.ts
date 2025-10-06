@@ -5,7 +5,7 @@ export default {
         { id: 3, url: 'Scramble', status: 'launched' },
         { id: 4, url: 'Filters', status: 'launched' },
         { id: 5, url: 'Remix', status: 'launched' },
-        { id: 6, url: 'Solids', status: 'coming soon' },
+        { id: 6, url: 'Solids', status: 'launched' },
         { id: 7, url: 'Sub-optimal', status: 'coming soon' },
         { id: 8, url: 'Containers', status: 'coming soon' },
         { id: 9, url: 'Blink', status: 'coming soon' },

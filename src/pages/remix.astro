@@ -1,0 +1,24 @@
+---
+import PoemRemix from '../components/PoemRemix'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Remix | Oct 5th'>
+	<section class='container'>
+		<h1 class='heading'>Day 5 Remix</h1>
+		<PoemRemix client:load />
+	</section>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: var(--max-content-w);
+		margin-inline: auto;
+		padding: var(--spacing-l) var(--spacing-s);
+	}
+	.heading {
+		font-size: var(--text-step--2);
+		font-weight: normal;
+		padding-block: var(--spacing-3xs);
+	}
+</style>

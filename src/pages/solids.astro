@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const brickCount = 9
+---
+
+<BaseLayout title='Solids | Oct 6th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 6 Solids</h1>
+		</div>
+		<div
+			class='grid animate'
+			onclick="this.classList.remove('animate'); setTimeout(() => this.classList.add('animate'), 10)"
+		>
+			{
+				Array.from({ length: brickCount }, (_, i) => {
+					const row = Math.floor(i / 3)
+					const reversedDelay = (2 - row) * 0.3 + (i % 3) * 0.1
+					return (
+						<span
+							class='brick'
+							style={`--delay: ${reversedDelay}s`}
+						/>
+					)
+				})
+			}
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		cursor: pointer;
+	}
+
+	.brick {
+		min-width: 200px;
+		height: 200px;
+		background-color: var(--orange-500);
+		border: 3px solid var(--orange-700);
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.grid.animate .brick {
+		animation: fall 0.6s ease-in forwards;
+		animation-delay: var(--delay);
+		opacity: 0;
+		transform: translateY(-25vh);
+	}
+
+	@keyframes fall {
+		0% {
+			opacity: 0;
+			transform: translateY(-25vh);
+		}
+		60% {
+			transform: translateY(10px);
+		}
+		80% {
+			transform: translateY(-3px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.brick {
+			min-width: 80px;
+			height: 80px;
+			border-width: 2px;
+		}
+	}
+</style>
+
+<script is:inline>
+	document.getElementById('brickGrid')?.classList.add('animate')
+</script>

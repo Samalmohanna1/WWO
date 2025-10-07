@@ -1,0 +1,284 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const fortunes = [
+	'The stars align in mysterious ways on this day.',
+	'A whisper from the cosmos suggests unexpected opportunities await.',
+	'The universe has marked this date with subtle significance.',
+	'Ancient energies converge, bringing neither good nor ill, but change.',
+	'On this day, the veil between possibility and reality grows thin.',
+	'Time ripples outward from this moment in ways yet unseen.',
+	'The calendar speaks: prepare for the unexpected.',
+	'Destiny has circled this date, though its purpose remains unclear.',
+	'The cosmic wheel turns, and this date bears its mark.',
+	'A curious alignment of circumstance surrounds this particular day.',
+	'The threads of fate weave patterns around this moment.',
+	'Something stirs in the ether on this date—remain observant.',
+	'The universe neither confirms nor denies, but simply notes this day.',
+	'Your chosen date resonates with energies both familiar and strange.',
+	'Time itself seems to pause and consider this particular moment.',
+]
+---
+
+<BaseLayout title='Sub-Optimal | Oct 7th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 7 Sub-Optimal</h1>
+		</div>
+		<div class='fortune-container'>
+			<div class='fortune-card'>
+				<p class='subtitle'>
+					Choose a date and unveil its mystic message
+				</p>
+
+				<div class='date-display'>
+					<span id='month-display'>__</span> /
+					<span id='day-display'>__</span> /
+					<span id='year-display'>____</span>
+				</div>
+
+				<div class='step-container'>
+					<div id='month-step' class='step active'>
+						<label>Select Month:</label>
+						<div class='number-grid' id='month-grid'></div>
+					</div>
+
+					<div id='day-step' class='step'>
+						<label>Select Day:</label>
+						<div class='number-grid' id='day-grid'></div>
+					</div>
+
+					<div id='year-step' class='step'>
+						<label>Select Year:</label>
+						<div class='number-grid' id='year-grid'></div>
+					</div>
+
+					<div id='reveal-step' class='step'>
+						<button id='reveal-btn'>Reveal Fortune</button>
+					</div>
+
+					<div id='fortune-step' class='step'>
+						<div class='fortune-display'>
+							<div class='fortune-text'></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.fortune-container {
+		display: flex;
+		padding-block: var(--spacing-s);
+	}
+
+	.fortune-card {
+		background: rgba(255, 255, 255, 0.05);
+		backdrop-filter: blur(10px);
+		border: 2px solid rgba(255, 255, 255, 0.1);
+		border-radius: var(--spacing-3xs);
+		padding: var(--spacing-l) var(--spacing-3xs);
+		width: 100%;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	}
+
+	.subtitle {
+		color: var(--lavender-300);
+		margin-bottom: var(--spacing-m);
+		font-style: italic;
+		padding-left: var(--spacing-xs);
+	}
+
+	.date-display {
+		color: var(--orange-400);
+		font-size: var(--text-step-3);
+		text-align: center;
+		margin-bottom: var(--spacing-l);
+		letter-spacing: 2px;
+	}
+
+	.step-container {
+		min-height: 200px;
+		position: relative;
+	}
+
+	.step {
+		display: none;
+		flex-direction: column;
+		gap: var(--spacing-m);
+		animation: fadeIn 0.5s ease;
+	}
+
+	.step.active {
+		display: flex;
+	}
+
+	label {
+		color: var(--lavender-300);
+		font-size: var(--text-step-0);
+		text-align: center;
+	}
+
+	.number-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--spacing-2xs);
+		max-width: 400px;
+		margin: 0 auto;
+	}
+
+	.number-grid :global(button),
+	.number-btn {
+		padding: var(--spacing-3xs);
+		background: rgba(255, 255, 255, 0.05);
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		border-radius: 8px;
+		color: var(--lavender-100);
+		font-size: var(--text-step-0);
+		font-weight: bold;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		font-family: monospace;
+	}
+
+	.number-grid :global(button):hover,
+	.number-btn:hover {
+		background: rgba(255, 255, 255, 0.1);
+		border-color: var(--orange-400);
+	}
+
+	#reveal-btn {
+		padding: var(--spacing-m) var(--spacing-l);
+		background: linear-gradient(
+			135deg,
+			var(--lavender-100) 0%,
+			var(--lavender-600) 100%
+		);
+		border-radius: 10px;
+		border: none;
+		color: var(--black-500);
+		font-size: var(--text-step-0);
+		font-weight: bold;
+		cursor: pointer;
+		max-width: 300px;
+		margin: 0 auto;
+	}
+
+	#reveal-btn:hover {
+		background: linear-gradient(
+			135deg,
+			var(--lavender-500) 30%,
+			var(--orange-600) 100%
+		);
+	}
+
+	.fortune-display {
+		padding: var(--spacing-l);
+		margin-inline: auto;
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		border-radius: 10px;
+		background: rgba(255, 255, 255, 0.05);
+		min-height: 150px;
+		width: fit-content;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.fortune-text {
+		color: var(--lavender-100);
+		font-size: var(--text-step-1);
+		text-align: center;
+		line-height: 1.6;
+		font-style: italic;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>
+
+<script define:vars={{ fortunes }}>
+	function initFortuneTeller() {
+		const state = {
+			month: null,
+			day: null,
+			year: null,
+		}
+
+		const monthDisplay = document.getElementById('month-display')
+		const dayDisplay = document.getElementById('day-display')
+		const yearDisplay = document.getElementById('year-display')
+
+		const monthStep = document.getElementById('month-step')
+		const dayStep = document.getElementById('day-step')
+		const yearStep = document.getElementById('year-step')
+		const revealStep = document.getElementById('reveal-step')
+		const fortuneStep = document.getElementById('fortune-step')
+
+		const monthGrid = document.getElementById('month-grid')
+		const dayGrid = document.getElementById('day-grid')
+		const yearGrid = document.getElementById('year-grid')
+
+		const revealBtn = document.getElementById('reveal-btn')
+		const fortuneText = document.querySelector('.fortune-text')
+
+		if (!monthGrid || !dayGrid || !yearGrid || !revealBtn || !fortuneText) {
+			return
+		}
+
+		function createNumberButtons(container, start, end, callback) {
+			container.innerHTML = ''
+			for (let i = start; i <= end; i++) {
+				const btn = document.createElement('button')
+				btn.className = 'number-btn'
+				btn.textContent = i
+				btn.addEventListener('click', () => callback(i))
+				container.appendChild(btn)
+			}
+		}
+
+		createNumberButtons(monthGrid, 1, 12, (value) => {
+			state.month = value
+			monthDisplay.textContent = String(value).padStart(2, '0')
+			monthStep.classList.remove('active')
+			dayStep.classList.add('active')
+		})
+
+		createNumberButtons(dayGrid, 1, 31, (value) => {
+			state.day = value
+			dayDisplay.textContent = String(value).padStart(2, '0')
+			dayStep.classList.remove('active')
+			yearStep.classList.add('active')
+		})
+
+		createNumberButtons(yearGrid, 1900, 2100, (value) => {
+			state.year = value
+			yearDisplay.textContent = value
+			yearStep.classList.remove('active')
+			revealStep.classList.add('active')
+		})
+
+		revealBtn.addEventListener('click', () => {
+			const randomIndex = Math.floor(Math.random() * fortunes.length)
+			const fortune = fortunes[randomIndex]
+
+			fortuneText.textContent = fortune
+			revealStep.classList.remove('active')
+			fortuneStep.classList.add('active')
+		})
+	}
+
+	initFortuneTeller()
+
+	document.addEventListener('astro:after-swap', initFortuneTeller)
+</script>

@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const containers = 7
+const containerSizes = [50, 80, 110, 140, 170, 200, 230]
+const colors = ['violet', 'indigo', 'blue', 'green', 'yellow', 'orange', 'red']
+---
+
+<BaseLayout title='Containers | Oct 8th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 8 Containers</h1>
+		</div>
+		<div
+			class='grid animate'
+			onclick="this.classList.remove('animate'); setTimeout(() => this.classList.add('animate'), 10)"
+		>
+			{
+				Array.from({ length: containers }, (_, i) => {
+					const row = Math.floor(i / 3)
+					const reversedDelay = (2 - row) * 0.3 + (i % 3) * 0.1
+					return (
+						<span
+							class='color'
+							style={`--delay: ${reversedDelay}s; --max-width: ${containerSizes[i]}px; --max-height: ${containerSizes[i]}px; --bg-color: ${colors[i]};`}
+						/>
+					)
+				})
+			}
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.grid {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		max-width: 280px;
+		height: 280px;
+		cursor: pointer;
+		border: 2px dashed var(--lime-800);
+		transition: all 0.4s ease-out;
+	}
+	.grid:hover {
+		border: 2px dashed var(--lime-400);
+	}
+
+	.color {
+		position: absolute;
+		max-width: var(--max-width);
+		width: 100%;
+		height: var(--max-height);
+		border: 10px solid var(--bg-color);
+		border-top: 0px;
+		border-radius: var(--spacing-3xs);
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.grid.animate .color {
+		animation: fall 0.4s ease-out forwards;
+		animation-delay: var(--delay);
+		opacity: 0;
+		transform: translateY(-15vh);
+	}
+
+	@keyframes fall {
+		0% {
+			opacity: 0;
+			transform: translateY(-15vh);
+		}
+		60% {
+			transform: translateY(8px);
+		}
+		80% {
+			transform: translateY(3px);
+			opacity: 0.4;
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>

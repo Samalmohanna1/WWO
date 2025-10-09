@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Blink | Oct 9th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 9 Blink</h1>
+		</div>
+		<div class='witch' id='witchContainer'>
+			<svg
+				viewBox='0 0 272 232'
+				fill='none'
+				xmlns='http://www.w3.org/2000/svg'
+			>
+				<g id='witch'>
+					<g id='white'>
+						<path
+							d='M87.618 121.585C87.618 112.161 95.2582 104.521 104.683 104.521C114.107 104.521 121.748 112.161 121.748 121.585V132.191C121.748 141.616 114.107 149.256 104.683 149.256C95.2582 149.256 87.618 141.616 87.618 132.191V121.585Z'
+							fill='#E0E0E0'></path>
+						<path
+							d='M150.557 121.585C150.557 112.161 158.197 104.521 167.622 104.521C177.046 104.521 184.687 112.161 184.687 121.585V132.191C184.687 141.616 177.046 149.256 167.622 149.256C158.197 149.256 150.557 141.616 150.557 132.191V121.585Z'
+							fill='#E0E0E0'></path>
+					</g>
+					<g id='pupils'>
+						<path
+							id='leftPupil'
+							d='M95.8319 126.725C95.8319 121.623 99.9679 117.487 105.07 117.487C110.172 117.487 114.308 121.623 114.308 126.725V132.466C114.308 137.568 110.172 141.704 105.07 141.704C99.9679 141.704 95.8319 137.568 95.8319 132.466V126.725Z'
+							fill='#181817'></path>
+						<path
+							id='rightPupil'
+							d='M157.997 126.725C157.997 121.623 162.133 117.487 167.235 117.487C172.337 117.487 176.473 121.623 176.473 126.725V132.466C176.473 137.568 172.337 141.704 167.235 141.704C162.133 141.704 157.997 137.568 157.997 132.466V126.725Z'
+							fill='#181817'></path>
+					</g>
+					<g id='eyelids'>
+						<path
+							class='eyelid'
+							d='M87.618 79.1128C87.618 69.6882 95.2582 62.048 104.683 62.048C114.107 62.048 121.748 69.6882 121.748 79.1128V106.697C121.748 111.378 114.107 111.157 104.683 111.157C95.2582 111.157 87.618 111.378 87.618 106.697V79.1128Z'
+							fill='#6646C5'></path>
+						<path
+							class='eyelid'
+							d='M150.557 79.1128C150.557 69.6882 158.197 62.048 167.622 62.048C177.046 62.048 184.687 69.6882 184.687 79.1128V106.697C184.687 111.378 177.046 111.157 167.622 111.157C158.197 111.157 150.557 111.378 150.557 106.697V79.1128Z'
+							fill='#6646C5'></path>
+					</g>
+					<path
+						id='face'
+						d='M136.152 27.084C192.485 27.0841 238.152 72.751 238.152 129.084C238.152 185.417 192.485 231.084 136.152 231.084C79.8193 231.084 34.1524 185.417 34.1523 129.084C34.1523 72.7509 79.8193 27.084 136.152 27.084ZM104.683 104.521C95.2582 104.521 87.6184 112.161 87.6182 121.585V132.191C87.6184 141.616 95.2582 149.256 104.683 149.256C114.107 149.256 121.748 141.616 121.748 132.191V121.585C121.748 112.161 114.107 104.521 104.683 104.521ZM167.622 104.521C158.198 104.521 150.557 112.161 150.557 121.585V132.191C150.557 141.616 158.198 149.256 167.622 149.256C177.046 149.256 184.686 141.616 184.687 132.191V121.585C184.686 112.161 177.046 104.521 167.622 104.521Z'
+						fill='#765BC8'></path>
+					<path
+						id='hair'
+						d='M224.073 208.84L196.631 95.2877H172.304L169.837 81.5382L162.434 95.2877H155.511L154.457 86.2969L150.485 95.2877H75.3363L48.2318 208.84H0.918182C8.90893 110.428 46.9939 -64.1908 136.07 24.6327C225.145 -64.1908 263.396 110.428 271.387 208.84H224.073Z'
+						fill='#181717'></path>
+					<path
+						id='nose'
+						d='M124.559 159.787C124.559 158.682 125.454 157.787 126.559 157.787H145.746C146.85 157.787 147.746 158.682 147.746 159.787V174.13C147.746 179.653 143.269 184.13 137.746 184.13H134.559C129.036 184.13 124.559 179.653 124.559 174.13V159.787Z'
+						fill='#6646C5'></path>
+					<path
+						id='mouth'
+						d='M120.068 196.396C120.068 195.882 120.484 195.466 120.998 195.466H151.307C151.82 195.466 152.237 195.882 152.237 196.396C152.237 198.964 150.155 201.046 147.586 201.046H124.718C122.15 201.046 120.068 198.964 120.068 196.396Z'
+						fill='#BC89AD'></path>
+					<g id='highlights'>
+						<mask
+							id='mask0_19_36'
+							style='mask-type:alpha'
+							maskUnits='userSpaceOnUse'
+							x='0'
+							y='0'
+							width='272'
+							height='209'
+						>
+							<path
+								id='hair_2'
+								d='M224.073 208.84L196.631 95.2877H172.304L169.837 81.5382L162.434 95.2877H155.511L154.457 86.2969L150.485 95.2877H75.3363L48.2318 208.84H0.918182C8.90893 110.428 46.9939 -64.1908 136.07 24.6327C225.145 -64.1908 263.396 110.428 271.387 208.84H224.073Z'
+								fill='#181717'></path>
+						</mask>
+						<g mask='url(#mask0_19_36)'>
+							<path
+								id='Vector 1'
+								d='M167.028 -7.28664C244.175 15.9562 262.473 87.1684 277.308 204.866'
+								stroke='#A8C210'
+								stroke-width='19'
+								stroke-linecap='round'></path>
+							<path
+								id='Vector 3'
+								d='M77.0825 96.0772C71.4076 110.129 46.5413 208.63 46.5413 213.109'
+								stroke='#A8C210'
+								stroke-width='4'></path>
+							<path
+								id='Vector 2'
+								d='M75.7785 -7.25886C75.7785 -7.25886 121.429 1.70823 138.752 21.5785'
+								stroke='#A8C210'
+								stroke-width='13'></path>
+						</g>
+					</g>
+				</g>
+			</svg>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	@media (min-width: 800px) {
+		.witch {
+			max-width: 80%;
+		}
+	}
+
+	.eyelid {
+		transition: transform 0.5s ease;
+		transform-origin: center;
+	}
+
+	.witch {
+		background: linear-gradient(
+			-135deg,
+			hsla(69, 76%, 58%, 0.75) 0%,
+			hsla(69, 85%, 29%, 0.4) 120%
+		);
+		padding: var(--spacing-m);
+		border-radius: var(--spacing-s);
+	}
+
+	.witch:hover .eyelid {
+		animation: blinkPattern 4s infinite;
+	}
+
+	@keyframes blinkPattern {
+		0%,
+		2% {
+			transform: scaleY(1);
+		}
+		4% {
+			transform: scaleY(1.1) translateY(42px);
+		}
+
+		8%,
+		12% {
+			transform: scaleY(1);
+		}
+		12% {
+			transform: scaleY(1.1) translateY(42px);
+		}
+
+		16%,
+		20% {
+			transform: scaleY(1);
+		}
+		20% {
+			transform: scaleY(1.1) translateY(42px);
+		}
+
+		25%,
+		50% {
+			transform: scaleY(1);
+		}
+
+		50%,
+		54% {
+			transform: scaleY(1);
+		}
+		54% {
+			transform: scaleY(1.1) translateY(42px);
+		}
+
+		58%,
+		62% {
+			transform: scaleY(1);
+		}
+		62% {
+			transform: scaleY(1.4) translateY(42px);
+		}
+
+		65%,
+		100% {
+			transform: scaleY(1);
+		}
+	}
+</style>
+
+<script>
+	function initPupilTracking() {
+		const witch = document.getElementById('witchContainer')
+		const leftPupil = document.getElementById('leftPupil')
+		const rightPupil = document.getElementById('rightPupil')
+
+		if (witch && leftPupil && rightPupil) {
+			const handleMouseMove = (e: {
+				clientY: number
+				clientX: number
+			}) => {
+				const witchRect = witch.getBoundingClientRect()
+				const witchCenterX = witchRect.left + witchRect.width / 2
+				const witchCenterY = witchRect.top + witchRect.height / 2
+
+				const angle = Math.atan2(
+					e.clientY - witchCenterY,
+					e.clientX - witchCenterX
+				)
+
+				const maxMove = 6
+				const moveX = Math.cos(angle) * maxMove
+				const moveY = Math.sin(angle) * maxMove
+
+				leftPupil.style.transform = `translate(${moveX}px, ${moveY}px)`
+				rightPupil.style.transform = `translate(${moveX}px, ${moveY}px)`
+			}
+
+			document.addEventListener('mousemove', handleMouseMove)
+
+			document.addEventListener(
+				'astro:before-swap',
+				() => {
+					document.removeEventListener('mousemove', handleMouseMove)
+				},
+				{ once: true }
+			)
+		}
+	}
+
+	initPupilTracking()
+
+	document.addEventListener('astro:page-load', initPupilTracking)
+</script>

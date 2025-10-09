@@ -1,28 +1,25 @@
 ---
 import baseData from '../data/baseData.js'
+import Navbar from './Navbar.astro'
 const currentYear = new Date().getFullYear()
 ---
 
 <footer>
-	<div class='content'>
-		<a href='/' aria-label='home' class='large-header'
-			>&#127875; WWO &#128123;</a
+	<Navbar />
+	<div class='footer-content'>
+		<a
+			href={baseData.portfolioURL}
+			target='_blank'
+			rel='noopener noreferrer'
+			aria-label=`Sam's portfolio`
+			class='footer-link'
+			>Made with &#128376; and &#9749; by Sam Almohanna <span
+				class='arrow'>&#8599;</span
+			></a
 		>
-		<nav class='footer-content'>
-			<a
-				href={baseData.portfolioURL}
-				target='_blank'
-				rel='noopener noreferrer'
-				aria-label=`Sam's portfolio`
-				class='footer-link'
-				>Made with &#128376; and &#9749; by Sam Almohanna <span
-					class='arrow'>&#8599;</span
-				></a
-			>
-			<p class='copyright'>
-				Copyright &copy; {currentYear} - All rights reserved
-			</p>
-		</nav>
+		<p class='copyright'>
+			Copyright &copy; {currentYear} - All rights reserved
+		</p>
 	</div>
 </footer>
 
@@ -30,31 +27,14 @@ const currentYear = new Date().getFullYear()
 	footer {
 		background-color: var(--black-900);
 	}
-	.content {
-		display: flex;
-		flex-direction: column;
-		padding-inline: var(--spacing-s);
-		max-width: 1400px;
-		width: 100%;
-		margin-inline: auto;
-	}
-	.large-header {
-		font-size: clamp(32px, 8cqw, 100px);
-		font-weight: 800;
-		text-align: center;
-		text-transform: uppercase;
-		text-decoration: none;
-		color: inherit;
-		padding-block: var(--spacing-xl);
-	}
-	.large-header:hover {
-		color: var(--orange-500);
-	}
 
 	.footer-content {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		max-width: var(--max-content-w);
+		margin-inline: auto;
+		padding-inline: var(--spacing-s);
 	}
 	.footer-link {
 		text-decoration: none;
@@ -64,12 +44,13 @@ const currentYear = new Date().getFullYear()
 	.footer-link:hover {
 		text-decoration: underline;
 		text-underline-position: under;
+		color: var(--orange-400);
 	}
 	.arrow {
 		font-size: var(--text-step-0);
 	}
 	.copyright {
-		font-size: var(--text-step--1);
+		font-size: var(--text-step--2);
 		padding-block: var(--spacing-2xs);
 	}
 

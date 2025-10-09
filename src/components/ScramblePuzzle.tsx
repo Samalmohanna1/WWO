@@ -105,8 +105,9 @@ export default function ScramblePuzzle() {
 		<div className='puzzle-container'>
 			<style>{`
         .puzzle-container {
-          max-width: 700px;
+          max-width: 620px;
           padding: var(--spacing-3xs);
+		  position: relative;
         }
         
         .puzzle-grid {
@@ -140,7 +141,7 @@ export default function ScramblePuzzle() {
         }
         
         .completion-message {
-          position: fixed;
+          position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
@@ -159,7 +160,7 @@ export default function ScramblePuzzle() {
         
         .message-content {
           color: var(--orange-500);
-          font-size: var(--text-step-1);
+          font-size: var(--text-step--1);
         }
         
         @keyframes float {

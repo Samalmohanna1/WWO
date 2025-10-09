@@ -19,14 +19,15 @@ body {
 .container {
     max-width: calc(var(--max-content-w) / 1.4);
     margin-inline: auto;
-    padding: var(--spacing-l) var(--spacing-s);
+    padding-inline: var(--spacing-s);
+    padding-bottom: var(--spacing-3xl);
 }
 
 .controls {
     display: flex;
     gap: var(--spacing-l);
     align-items: center;
-    padding-block: var(--spacing-s);
+    padding-block: var(--spacing-2xs);
 }
 
 .heading {

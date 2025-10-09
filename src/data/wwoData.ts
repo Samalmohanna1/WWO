@@ -8,7 +8,7 @@ export default {
         { id: 6, url: 'Solids', status: 'launched' },
         { id: 7, url: 'Sub-optimal', status: 'launched' },
         { id: 8, url: 'Containers', status: 'launched' },
-        { id: 9, url: 'Blink', status: 'coming soon' },
+        { id: 9, url: 'Blink', status: 'launched' },
         { id: 10, url: 'Warning', status: 'coming soon' },
         { id: 11, url: 'Camera', status: 'coming soon' },
         { id: 12, url: 'Battle', status: 'coming soon' },

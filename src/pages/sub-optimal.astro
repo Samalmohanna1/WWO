@@ -13,7 +13,7 @@ const fortunes = [
 	'The cosmic wheel turns, and this date bears its mark.',
 	'A curious alignment of circumstance surrounds this particular day.',
 	'The threads of fate weave patterns around this moment.',
-	'Something stirs in the ether on this date—remain observant.',
+	'Something stirs in the ether on this date, remain observant.',
 	'The universe neither confirms nor denies, but simply notes this day.',
 	'Your chosen date resonates with energies both familiar and strange.',
 	'Time itself seems to pause and consider this particular moment.',
@@ -87,7 +87,6 @@ const fortunes = [
 	.subtitle {
 		color: var(--lavender-300);
 		margin-bottom: var(--spacing-m);
-		font-style: italic;
 		padding-left: var(--spacing-xs);
 	}
 
@@ -236,20 +235,44 @@ const fortunes = [
 			return
 		}
 
-		function createNumberButtons(container, start, end, callback) {
-			container.innerHTML = ''
-			for (let i = start; i <= end; i++) {
-				const btn = document.createElement('button')
-				btn.className = 'number-btn'
-				btn.textContent = i
-				btn.addEventListener('click', () => callback(i))
-				container.appendChild(btn)
+		function shuffleArray(array) {
+			const shuffled = [...array]
+			for (let i = shuffled.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1))
+				;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
 			}
+			return shuffled
+		}
+
+		function createNumberButtons(container, start, end, callback) {
+			let numbers = []
+			for (let i = start; i <= end; i++) {
+				numbers.push(i)
+			}
+
+			function renderButtons() {
+				const shuffled = shuffleArray(numbers)
+				container.innerHTML = ''
+				shuffled.forEach((num) => {
+					const btn = document.createElement('button')
+					btn.className = 'number-btn'
+					btn.textContent = num
+					btn.addEventListener('click', () => callback(num))
+					container.appendChild(btn)
+				})
+			}
+
+			renderButtons()
+
+			const intervalId = setInterval(renderButtons, 1800)
+
+			container.dataset.intervalId = intervalId
 		}
 
 		createNumberButtons(monthGrid, 1, 12, (value) => {
 			state.month = value
 			monthDisplay.textContent = String(value).padStart(2, '0')
+			clearInterval(monthGrid.dataset.intervalId)
 			monthStep.classList.remove('active')
 			dayStep.classList.add('active')
 		})
@@ -257,6 +280,7 @@ const fortunes = [
 		createNumberButtons(dayGrid, 1, 31, (value) => {
 			state.day = value
 			dayDisplay.textContent = String(value).padStart(2, '0')
+			clearInterval(dayGrid.dataset.intervalId)
 			dayStep.classList.remove('active')
 			yearStep.classList.add('active')
 		})
@@ -264,6 +288,7 @@ const fortunes = [
 		createNumberButtons(yearGrid, 1900, 2100, (value) => {
 			state.year = value
 			yearDisplay.textContent = value
+			clearInterval(yearGrid.dataset.intervalId)
 			yearStep.classList.remove('active')
 			revealStep.classList.add('active')
 		})

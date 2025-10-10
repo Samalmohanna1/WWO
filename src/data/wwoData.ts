@@ -9,7 +9,7 @@ export default {
         { id: 7, url: 'Sub-optimal', status: 'launched' },
         { id: 8, url: 'Containers', status: 'launched' },
         { id: 9, url: 'Blink', status: 'launched' },
-        { id: 10, url: 'Warning', status: 'coming soon' },
+        { id: 10, url: 'Warning', status: 'launched' },
         { id: 11, url: 'Camera', status: 'coming soon' },
         { id: 12, url: 'Battle', status: 'coming soon' },
         { id: 13, url: 'Upside-down', status: 'coming soon' },

@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import shelby from '../assets/shelby.png'
+---
+
+<BaseLayout title='Warning | Oct 10th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 10 Warning</h1>
+		</div>
+		<div class='warning'>
+			<h2>Heads up, Netlify free tier friends:</h2>
+			<p>
+				Every published deploy eats 15 credits. And since auto-publish
+				is on by default, every time I push a commit for my daily Weird
+				Web October submissions, Netlify&apos;s in the corner like:
+			</p>
+			<div class='p1-wrapper'>
+				<p>“Thanks! That&apos;ll be 15 credits, please.”</p>
+				<Image
+					class='shelby'
+					src={shelby}
+					alt='Shelby the worm from Adventure Time.'
+				/>
+			</div>
+			<p>
+				I&apos;ll own this one. I didn&apos;t read the fine print on
+				credits until I watched my balance vanish like samples at
+				Costco. I&apos;ve got 8 commits worth of credits left... and 21
+				days to go in the challenge. &#128556;
+			</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.warning {
+		border: 4px double var(--pink-700);
+		border-radius: var(--spacing-3xs);
+		background-color: var(--black-500);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+		padding: var(--spacing-m) var(--spacing-s);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2xs);
+	}
+	h2 {
+		color: var(--lime-400);
+		font-size: var(--text-step-1);
+		text-transform: uppercase;
+		padding-bottom: var(--spacing-2xs);
+	}
+	p {
+		font-size: var(--text-step-0);
+	}
+	.p1-wrapper {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2xs);
+		& p {
+			font-style: italic;
+		}
+	}
+	.shelby {
+		max-width: 100px;
+		width: 100%;
+		height: 100%;
+	}
+	@media (min-width: 800px) {
+	}
+</style>

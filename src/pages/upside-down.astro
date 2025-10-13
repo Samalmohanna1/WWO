@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<div class='upside-down'>
+	<BaseLayout title='Upside Down | Oct 13th'>
+		<section class='container'>
+			<div class='controls'>
+				<h1 class='heading'>Day 13 Upside Down</h1>
+			</div>
+		</section>
+	</BaseLayout>
+</div>
+
+<style>
+	.upside-down {
+		transform: rotate(180deg);
+	}
+	.heading {
+		font-size: var(--text-step-5);
+		text-align: center;
+		margin-inline: auto;
+		transition: all 0.2s ease;
+	}
+	.upside-down:hover {
+		& .heading {
+			transform: rotate(180deg);
+		}
+	}
+</style>

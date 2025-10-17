@@ -15,7 +15,7 @@ export default {
         { id: 13, url: 'Upside-down', status: 'launched' },
         { id: 14, url: 'Doubles', status: 'launched' },
         { id: 15, url: 'Unicode', status: 'launched' },
-        { id: 16, url: 'Transition', status: 'coming soon' },
+        { id: 16, url: 'Transition', status: 'launched' },
         { id: 17, url: 'Illumination', status: 'coming soon' },
         { id: 18, url: 'Trading', status: 'coming soon' },
         { id: 19, url: 'Bounce', status: 'coming soon' },

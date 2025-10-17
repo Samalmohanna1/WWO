@@ -13,7 +13,7 @@ export default {
         { id: 11, url: 'Camera', status: 'launched' },
         { id: 12, url: 'Battle', status: 'launched' },
         { id: 13, url: 'Upside-down', status: 'launched' },
-        { id: 14, url: 'Doubles', status: 'coming soon' },
+        { id: 14, url: 'Doubles', status: 'launched' },
         { id: 15, url: 'Unicode', status: 'coming soon' },
         { id: 16, url: 'Transition', status: 'coming soon' },
         { id: 17, url: 'Illumination', status: 'coming soon' },

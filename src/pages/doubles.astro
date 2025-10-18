@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Doubles | Oct 14th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 14 Doubles</h1>
+			<button class='btn' id='doubleBtn'>Click to Double</button>
+		</div>
+		<div class='double'>
+			<p id='doubleValue'>1</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.btn {
+		padding: var(--spacing-2xs) var(--spacing-s);
+		background-color: var(--lavender-400);
+		border: none;
+		border-radius: var(--spacing-3xs);
+		font-weight: 600;
+		cursor: pointer;
+		transition:
+			background 0.2s,
+			color 0.2s;
+	}
+	.btn:hover {
+		background-color: var(--lavender-500);
+	}
+	.double {
+		background-color: var(--orange-400);
+		padding: var(--spacing-2xl) var(--spacing-s);
+	}
+	.double p {
+		color: var(--black-500);
+		font-size: var(--text-step-2);
+		font-weight: 900;
+		text-align: center;
+	}
+	@media (min-width: 800px) {
+		.double p {
+			font-size: var(--text-step-4);
+		}
+	}
+</style>
+
+<script>
+	function setupDoubleButton() {
+		const btn = document.getElementById('doubleBtn')
+		const val = document.getElementById('doubleValue')
+		if (btn && val) {
+			btn.addEventListener('click', () => {
+				val.textContent = String(Number(val.textContent) * 2)
+			})
+		}
+	}
+
+	setupDoubleButton()
+
+	document.addEventListener('astro:page-load', setupDoubleButton)
+</script>

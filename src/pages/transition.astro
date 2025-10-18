@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Transition | Oct 16th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 16 Transition</h1>
+		</div>
+
+		<div class='settings'>
+			<div class='setting'>
+				<label for='duration'>Duration:</label>
+				<input
+					type='range'
+					id='duration'
+					min='300'
+					max='3000'
+					value='1000'
+					step='100'
+				/>
+				<span id='durationDisplay'>1000ms</span>
+			</div>
+
+			<div class='setting'>
+				<label for='easing'>Easing:</label>
+				<select id='easing'>
+					<option value='ease'>ease</option>
+					<option value='linear'>linear</option>
+					<option value='ease-in'>ease-in</option>
+					<option value='ease-out'>ease-out</option>
+					<option value='ease-in-out'>ease-in-out</option>
+					<option value='cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+						>bounce</option
+					>
+				</select>
+			</div>
+		</div>
+
+		<div class='transition-container'>
+			<p class='bat' id='bat'>🦇</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.settings {
+		display: flex;
+		flex-direction: row;
+		gap: var(--spacing-l);
+		margin-bottom: var(--spacing-s);
+		background: var(--black-900);
+		border: 4px double var(--lavender-400);
+		padding: var(--spacing-s);
+		border-radius: var(--spacing-3xs);
+	}
+
+	.setting {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2xs);
+	}
+
+	.setting label {
+		font-weight: 600;
+		font-size: var(--text-step--2);
+		color: var(--lavender-400);
+		text-transform: uppercase;
+	}
+
+	.setting input[type='range'] {
+		width: 200px;
+		cursor: pointer;
+		accent-color: var(--lime-400);
+	}
+
+	.setting select {
+		padding: var(--spacing-2xs);
+		background: var(--black-900);
+		color: var(--lime-300);
+		border: 1px solid var(--lavender-400);
+		border-radius: var(--spacing-3xs);
+		cursor: pointer;
+		min-width: 150px;
+	}
+
+	.setting select option {
+		background: var(--black-900);
+		color: var(--lime-300);
+	}
+
+	#durationDisplay {
+		font-size: var(--text-step--2);
+		color: var(--lime-400);
+	}
+
+	.transition-container {
+		background: var(--black-900);
+		border: 4px double var(--lavender-400);
+		padding: var(--spacing-l);
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 400px;
+		border-radius: var(--spacing-3xs);
+	}
+
+	.bat {
+		font-size: var(--text-step-6);
+		animation: batFloat 1000ms ease infinite;
+	}
+	@media (max-width: 800px) {
+		.settings {
+			flex-direction: column;
+			gap: var(--spacing-xs);
+		}
+	}
+
+	@keyframes batFloat {
+		0%,
+		100% {
+			transform: translateY(0) scale(1);
+		}
+		50% {
+			transform: translateY(-30px) scale(1.1);
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const bat = document.getElementById('bat') as HTMLElement | null
+		const durationInput = document.getElementById(
+			'duration'
+		) as HTMLInputElement | null
+		const easingSelect = document.getElementById(
+			'easing'
+		) as HTMLSelectElement | null
+		const durationDisplay = document.getElementById(
+			'durationDisplay'
+		) as HTMLElement | null
+
+		if (!bat || !durationInput || !easingSelect || !durationDisplay) return
+
+		function updateAnimation() {
+			if (bat && durationInput && easingSelect && durationDisplay) {
+				const duration = durationInput.value
+				const easing = easingSelect.value
+
+				bat.style.animationDuration = `${duration}ms`
+				bat.style.animationTimingFunction = easing
+				durationDisplay.textContent = `${duration}ms`
+			}
+		}
+
+		durationInput.addEventListener('input', updateAnimation)
+		easingSelect.addEventListener('change', updateAnimation)
+
+		updateAnimation()
+	})
+</script>

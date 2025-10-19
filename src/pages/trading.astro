@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import TradingGame from '../components/TradingGame'
+---
+
+<BaseLayout title='Trading | Oct 18th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 18 Trading</h1>
+		</div>
+		<TradingGame client:load />
+	</section>
+</BaseLayout>

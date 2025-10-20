@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Unicode | Oct 15th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 15 Unicode</h1>
+		</div>
+		<div class='art-container'>
+			<pre>
+🦇 ALWAYS 🦇 
+░▒▓█    █▓▒░ 
+░▒▓█████████▓▒░ 
+░▒▓███ 👁️ 👁️ ███▓▒░ 
+░▒▓██    ◉    ██▓▒░ 
+░▒▓█  ▼▼▼▼▼▼  █▓▒░
+░▒▓█████████▓▒░ 
+░▒▓█ WATCHING YOU █▓▒░
+		</pre>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.art-container {
+		background: var(--black-900);
+		border: 4px double var(--orange-400);
+		padding: var(--spacing-m);
+		max-width: 600px;
+		white-space: pre;
+		font-size: var(--text-step--1);
+		text-align: center;
+	}
+
+	pre {
+		animation: glitch 3s infinite;
+	}
+
+	@keyframes glitch {
+		0%,
+		100% {
+			text-shadow: 0 0 0 var(--orange-500);
+			color: var(--lavender-400);
+		}
+		20% {
+			text-shadow:
+				-1px 0 var(--lime-400),
+				1px 0 var(--pink-500);
+			transform: translateX(-1px);
+		}
+		40% {
+			text-shadow:
+				1px 0 var(--lime-400),
+				-1px 0 var(--pink-500);
+			transform: translateX(1px);
+		}
+		60% {
+			text-shadow:
+				-1px 0 var(--pink-500),
+				1px 0 var(--lime-400);
+			transform: translateX(-1px);
+		}
+		80% {
+			text-shadow:
+				1px 0 var(--pink-500),
+				-1px 0 var(--lime-400);
+			transform: translateX(1px);
+		}
+	}
+</style>

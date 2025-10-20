@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import BouncingBalls from '../components/BouncingBalls'
+---
+
+<BaseLayout title='Bounce | Oct 19th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 19 Bounce</h1>
+		</div>
+
+		<div class='bounce-container'>
+			<BouncingBalls client:load />
+		</div>
+	</section>
+</BaseLayout>
+<style>
+	.bounce-container {
+		border: 4px double var(--black-400);
+		position: relative;
+		height: 300px;
+		width: 100%;
+		overflow: hidden;
+	}
+</style>

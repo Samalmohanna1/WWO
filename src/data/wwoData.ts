@@ -19,7 +19,7 @@ export default {
         { id: 17, url: 'Illumination', status: 'launched' },
         { id: 18, url: 'Trading', status: 'launched' },
         { id: 19, url: 'Bounce', status: 'launched' },
-        { id: 20, url: 'Hidden', status: 'coming soon' },
+        { id: 20, url: 'Hidden', status: 'launched' },
         { id: 21, url: 'Language', status: 'coming soon' },
         { id: 22, url: 'Memory', status: 'coming soon' },
         { id: 23, url: 'Style', status: 'coming soon' },

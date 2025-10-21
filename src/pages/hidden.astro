@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { Image } from 'astro:assets'
+import scanner from '../assets/scanner.png'
+import scannerOn from '../assets/scanner-on.png'
+import giftIcon from '../assets/gift.png'
+import wallpaper from '../assets/sleepysam-wwo25-hidden-gift.png'
+---
+
+<BaseLayout title='Hidden | Oct 20th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 20 Hidden</h1>
+		</div>
+
+		<div>
+			<p class='instructions'>
+				Grab the scanner below to find the hidden item.
+			</p>
+			<Image
+				class='scanner'
+				src={scanner}
+				alt='scanner.'
+				id='scannerTool'
+			/>
+		</div>
+
+		<div class='hidden-container' id='hiddenContainer'>
+			<Image
+				class='scannerOn'
+				src={scannerOn}
+				alt='active scanner.'
+				id='scannerCursor'
+			/>
+			<Image class='gift' src={giftIcon} alt='gift icon.' id='giftItem' />
+		</div>
+	</section>
+
+	<div class='modal' id='congratsModal'>
+		<div class='modal-content'>
+			<h2>You found the hidden gift!</h2>
+			<p class='modal-text'>
+				Click the image to download your free wallpaper:
+			</p>
+			<a href={wallpaper.src} download>
+				<Image
+					class='wallpaper-preview'
+					src={wallpaper}
+					alt='Your Wallpaper'
+					id='wallpaperPreview'
+				/>
+			</a>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: var(--max-content-w);
+	}
+	.instructions {
+		font-size: var(--text-step--1);
+		color: var(--lime-400);
+	}
+
+	.scanner {
+		cursor: pointer;
+		transition: transform 0.3s ease;
+		margin: 20px 0;
+	}
+
+	.scanner:hover {
+		transform: scale(1.1);
+	}
+
+	.hidden-container {
+		border: 4px double var(--black-400);
+		position: relative;
+		min-height: 500px;
+		width: 100%;
+		overflow: hidden;
+		cursor: none;
+	}
+
+	.scannerOn {
+		position: absolute;
+		pointer-events: none;
+		display: none;
+		transform: translate(-50%, -50%);
+		z-index: 10;
+	}
+
+	.gift {
+		position: absolute;
+		width: 30px;
+		height: auto;
+		cursor: none;
+		transition: transform 0.3s ease;
+		opacity: 0;
+	}
+
+	.modal {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.85);
+		z-index: 1000;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.modal.active {
+		display: flex;
+	}
+
+	.modal-content {
+		background: var(--lavender-200);
+		padding: var(--spacing-xs);
+		border-radius: var(--spacing-3xs);
+		text-align: center;
+		max-width: 500px;
+		animation: modalAppear 0.2s ease-out;
+	}
+
+	@keyframes modalAppear {
+		from {
+			transform: scale(0.5);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	.modal-content h2 {
+		color: var(--black-500);
+		font-size: var(--text-step-1);
+	}
+
+	.modal-text {
+		color: var(--black-400);
+		font-size: var(--text-step--1);
+		line-height: 1.2;
+		text-wrap: balance;
+	}
+
+	.wallpaper-preview {
+		width: 100%;
+		max-width: 300px;
+		height: auto;
+		border-radius: var(--spacing-3xs);
+		margin: var(--spacing-s) auto;
+	}
+</style>
+
+<script>
+	function initScanner() {
+		const scannerTool = document.getElementById('scannerTool')
+		const hiddenContainer = document.getElementById('hiddenContainer')
+		const scannerCursor = document.getElementById('scannerCursor')
+		const giftItem = document.getElementById('giftItem')
+		const congratsModal = document.getElementById('congratsModal')
+		const modalContent = congratsModal?.querySelector('.modal-content')
+
+		if (!scannerTool || !hiddenContainer || !scannerCursor || !giftItem) {
+			return
+		}
+
+		let scannerActive = false
+		let giftFound = false
+
+		function randomizeGiftPosition() {
+			if (hiddenContainer && giftItem) {
+				const containerRect = hiddenContainer.getBoundingClientRect()
+				const maxX = containerRect.width - 50
+				const maxY = containerRect.height - 50
+
+				const randomX = Math.random() * maxX
+				const randomY = Math.random() * maxY
+
+				giftItem.style.left = randomX + 'px'
+				giftItem.style.top = randomY + 'px'
+			}
+		}
+
+		randomizeGiftPosition()
+
+		scannerTool.addEventListener('click', () => {
+			if (!giftFound) {
+				scannerActive = true
+				scannerTool.classList.add('active')
+				hiddenContainer.classList.add('scanner-active')
+			}
+		})
+
+		hiddenContainer.addEventListener('mousemove', (e) => {
+			if (scannerActive && !giftFound) {
+				const rect = hiddenContainer.getBoundingClientRect()
+				const x = e.clientX - rect.left
+				const y = e.clientY - rect.top
+
+				scannerCursor.style.left = x + 'px'
+				scannerCursor.style.top = y + 'px'
+			}
+		})
+
+		hiddenContainer.addEventListener('mouseleave', () => {
+			scannerCursor.style.display = 'none'
+		})
+
+		hiddenContainer.addEventListener('mouseenter', () => {
+			if (scannerActive && !giftFound) {
+				scannerCursor.style.display = 'block'
+			}
+		})
+
+		giftItem.addEventListener('mouseenter', () => {
+			if (scannerActive && congratsModal && !giftFound) {
+				giftFound = true
+				giftItem.classList.add('found')
+
+				setTimeout(() => {
+					congratsModal.classList.add('active')
+				}, 600)
+			}
+		})
+
+		congratsModal?.addEventListener('click', (e) => {
+			if (e.target === congratsModal) {
+				congratsModal.classList.remove('active')
+				scannerActive = false
+				giftFound = false
+				scannerTool.classList.remove('active')
+				hiddenContainer.classList.remove('scanner-active')
+				giftItem.classList.remove('found')
+				giftItem.style.opacity = '0'
+				scannerCursor.style.display = 'none'
+				randomizeGiftPosition()
+			}
+		})
+		modalContent?.addEventListener('click', (e) => {
+			e.stopPropagation()
+		})
+	}
+	initScanner()
+
+	document.addEventListener('astro:page-load', initScanner)
+</script>

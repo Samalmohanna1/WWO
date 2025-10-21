@@ -157,7 +157,7 @@ import wallpaper from '../assets/sleepysam-wwo25-hidden-gift.png'
 	}
 </style>
 
-<script>
+<!-- <script>
 	function initScanner() {
 		const scannerTool = document.getElementById('scannerTool')
 		const hiddenContainer = document.getElementById('hiddenContainer')
@@ -242,6 +242,175 @@ import wallpaper from '../assets/sleepysam-wwo25-hidden-gift.png'
 				randomizeGiftPosition()
 			}
 		})
+		modalContent?.addEventListener('click', (e) => {
+			e.stopPropagation()
+		})
+	}
+	initScanner()
+
+	document.addEventListener('astro:page-load', initScanner)
+</script> -->
+
+<script>
+	function initScanner() {
+		const scannerTool = document.getElementById('scannerTool')
+		const hiddenContainer = document.getElementById('hiddenContainer')
+		const scannerCursor = document.getElementById('scannerCursor')
+		const giftItem = document.getElementById('giftItem')
+		const congratsModal = document.getElementById('congratsModal')
+		const modalContent = congratsModal?.querySelector('.modal-content')
+
+		if (!scannerTool || !hiddenContainer || !scannerCursor || !giftItem) {
+			return
+		}
+
+		let scannerActive = false
+		let giftFound = false
+		let isDragging = false
+
+		function randomizeGiftPosition() {
+			if (hiddenContainer && giftItem) {
+				const containerRect = hiddenContainer.getBoundingClientRect()
+				const maxX = containerRect.width - 50
+				const maxY = containerRect.height - 50
+
+				const randomX = Math.random() * maxX
+				const randomY = Math.random() * maxY
+
+				giftItem.style.left = randomX + 'px'
+				giftItem.style.top = randomY + 'px'
+			}
+		}
+
+		randomizeGiftPosition()
+
+		scannerTool.addEventListener('click', () => {
+			if (!giftFound) {
+				scannerActive = true
+				scannerTool.classList.add('active')
+				hiddenContainer.classList.add('scanner-active')
+				if ('ontouchstart' in window) {
+					scannerCursor.style.display = 'block'
+					const rect = hiddenContainer.getBoundingClientRect()
+					scannerCursor.style.left = rect.width / 2 + 'px'
+					scannerCursor.style.top = rect.height / 2 + 'px'
+				}
+			}
+		})
+
+		hiddenContainer.addEventListener('mousemove', (e) => {
+			if (scannerActive && !giftFound && !isDragging) {
+				const rect = hiddenContainer.getBoundingClientRect()
+				const x = e.clientX - rect.left
+				const y = e.clientY - rect.top
+
+				scannerCursor.style.left = x + 'px'
+				scannerCursor.style.top = y + 'px'
+			}
+		})
+		function updateScannerPosition(clientX: number, clientY: number) {
+			if (
+				scannerActive &&
+				!giftFound &&
+				scannerCursor &&
+				hiddenContainer
+			) {
+				const rect = hiddenContainer.getBoundingClientRect()
+				const x = clientX - rect.left
+				const y = clientY - rect.top
+
+				const clampedX = Math.max(0, Math.min(x, rect.width))
+				const clampedY = Math.max(0, Math.min(y, rect.height))
+
+				scannerCursor.style.left = clampedX + 'px'
+				scannerCursor.style.top = clampedY + 'px'
+				scannerCursor.style.display = 'block'
+
+				checkGiftCollision(clampedX, clampedY)
+			}
+		}
+
+		function checkGiftCollision(scannerX: number, scannerY: number) {
+			if (giftFound) return
+
+			if (giftItem && hiddenContainer) {
+				const giftRect = giftItem.getBoundingClientRect()
+				const containerRect = hiddenContainer.getBoundingClientRect()
+				const giftX =
+					giftRect.left - containerRect.left + giftRect.width / 2
+				const giftY =
+					giftRect.top - containerRect.top + giftRect.height / 2
+
+				const distance = Math.sqrt(
+					Math.pow(scannerX - giftX, 2) +
+						Math.pow(scannerY - giftY, 2)
+				)
+
+				if (distance < 40) {
+					giftFound = true
+					giftItem.classList.add('found')
+					setTimeout(() => {
+						congratsModal?.classList.add('active')
+					}, 600)
+				}
+			}
+		}
+
+		hiddenContainer.addEventListener('touchstart', (e) => {
+			if (scannerActive && !giftFound) {
+				isDragging = true
+				const touch = e.touches[0]
+				updateScannerPosition(touch.clientX, touch.clientY)
+			}
+		})
+
+		hiddenContainer.addEventListener('touchmove', (e) => {
+			if (isDragging) {
+				e.preventDefault()
+				const touch = e.touches[0]
+				updateScannerPosition(touch.clientX, touch.clientY)
+			}
+		})
+
+		hiddenContainer.addEventListener('touchend', () => {
+			isDragging = false
+		})
+
+		hiddenContainer.addEventListener('mouseleave', () => {
+			scannerCursor.style.display = 'none'
+		})
+
+		hiddenContainer.addEventListener('mouseenter', () => {
+			if (scannerActive && !giftFound) {
+				scannerCursor.style.display = 'block'
+			}
+		})
+
+		giftItem.addEventListener('mouseenter', () => {
+			if (scannerActive && congratsModal && !giftFound && !isDragging) {
+				giftFound = true
+				giftItem.classList.add('found')
+
+				setTimeout(() => {
+					congratsModal.classList.add('active')
+				}, 600)
+			}
+		})
+
+		congratsModal?.addEventListener('click', (e) => {
+			if (e.target === congratsModal) {
+				congratsModal.classList.remove('active')
+				scannerActive = false
+				giftFound = false
+				scannerTool.classList.remove('active')
+				hiddenContainer.classList.remove('scanner-active')
+				giftItem.classList.remove('found')
+				giftItem.style.opacity = '0'
+				scannerCursor.style.display = 'none'
+				randomizeGiftPosition()
+			}
+		})
+
 		modalContent?.addEventListener('click', (e) => {
 			e.stopPropagation()
 		})

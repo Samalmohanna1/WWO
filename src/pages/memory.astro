@@ -1,0 +1,14 @@
+---
+import MemoryGame from '../components/MemoryGame'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Memory | Oct 22nd'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 22 Memory</h1>
+		</div>
+
+		<MemoryGame client:load />
+	</section>
+</BaseLayout>

@@ -98,10 +98,10 @@ export default function MemoryGame() {
 
 	return (
 		<div>
+			<button onClick={startGame} className='startBtn'>
+				{sequence.length === 0 ? 'Start Game' : 'Restart'}
+			</button>
 			<div className='gameHeader'>
-				<button onClick={startGame} className='startBtn'>
-					{sequence.length === 0 ? 'Start Game' : 'Restart'}
-				</button>
 				<p>
 					{gameOver ? 'Game Over!' : isUserTurn ? 'Your turn!' : ''}
 				</p>
@@ -138,9 +138,11 @@ export default function MemoryGame() {
 			<style>{`
             .gameHeader {
                 display: flex;
-                gap: var(--spacing-s);
                 justify-content: space-between;
+                gap: var(--spacing-s);
                 align-items: center;
+                max-width: 600px;
+                margin-inline: auto;
                 padding-block: var(--spacing-s);
                 & p {
                 font-size: var(--text-step--1);
@@ -181,8 +183,7 @@ export default function MemoryGame() {
 
             @media (max-width: 500px) {
                 .gameHeader {
-                    flex-direction: column;
-                    gap: var(--spacing-s);
+                    padding-top: var(--spacing-l);
                 }
                 .gameGrid, .colorGrid {
                     gap: 8px;

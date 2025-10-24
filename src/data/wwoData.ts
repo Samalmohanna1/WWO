@@ -23,7 +23,7 @@ export default {
         { id: 21, url: 'Language', status: 'launched' },
         { id: 22, url: 'Memory', status: 'launched' },
         { id: 23, url: 'Style', status: 'launched' },
-        { id: 24, url: 'Counter', status: 'coming soon' },
+        { id: 24, url: 'Counter', status: 'launched' },
         { id: 25, url: 'Empty', status: 'coming soon' },
         { id: 26, url: 'Texture', status: 'coming soon' },
         { id: 27, url: 'Spell', status: 'coming soon' },

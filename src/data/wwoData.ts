@@ -24,7 +24,7 @@ export default {
         { id: 22, url: 'Memory', status: 'launched' },
         { id: 23, url: 'Style', status: 'launched' },
         { id: 24, url: 'Counter', status: 'launched' },
-        { id: 25, url: 'Empty', status: 'coming soon' },
+        { id: 25, url: 'Empty', status: 'launched' },
         { id: 26, url: 'Texture', status: 'coming soon' },
         { id: 27, url: 'Spell', status: 'coming soon' },
         { id: 28, url: 'Tables', status: 'coming soon' },

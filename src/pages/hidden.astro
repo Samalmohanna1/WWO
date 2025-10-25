@@ -1,0 +1,351 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { Image } from 'astro:assets'
+import scanner from '../assets/scanner.png'
+import scannerOn from '../assets/scanner-on.png'
+import giftIcon from '../assets/gift.png'
+import wallpaper from '../assets/sleepysam-wwo25-hidden-gift.png'
+---
+
+<BaseLayout title='Hidden | Oct 20th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 20 Hidden</h1>
+		</div>
+
+		<div>
+			<p class='instructions'>
+				Grab the scanner below to find the hidden item.
+			</p>
+			<Image
+				class='scanner'
+				src={scanner}
+				alt='scanner.'
+				id='scannerTool'
+			/>
+		</div>
+
+		<div class='hidden-container' id='hiddenContainer'>
+			<Image
+				class='scannerOn'
+				src={scannerOn}
+				alt='active scanner.'
+				id='scannerCursor'
+			/>
+			<Image class='gift' src={giftIcon} alt='gift icon.' id='giftItem' />
+		</div>
+	</section>
+
+	<div class='modal' id='congratsModal'>
+		<div class='modal-content'>
+			<h2>You found the hidden gift!</h2>
+			<p class='modal-text'>
+				Click the image to download your free wallpaper:
+			</p>
+			<a href={wallpaper.src} download>
+				<Image
+					class='wallpaper-preview'
+					src={giftIcon}
+					alt='Your Wallpaper'
+					id='wallpaperPreview'
+				/>
+			</a>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: var(--max-content-w);
+	}
+	.instructions {
+		font-size: var(--text-step--1);
+		color: var(--lime-400);
+	}
+
+	.scanner {
+		cursor: pointer;
+		transition: transform 0.3s ease;
+		margin: 20px 0;
+	}
+
+	.scanner:hover {
+		transform: scale(1.1);
+	}
+
+	.hidden-container {
+		border: 4px double var(--black-400);
+		position: relative;
+		min-height: 500px;
+		width: 100%;
+		overflow: hidden;
+		cursor: none;
+	}
+
+	.scannerOn {
+		position: absolute;
+		pointer-events: none;
+		display: none;
+		transform: translate(-50%, -50%);
+		z-index: 10;
+	}
+
+	.gift {
+		position: absolute;
+		width: 30px;
+		height: auto;
+		cursor: none;
+		transition: transform 0.3s ease;
+		opacity: 0;
+	}
+
+	.gift.found {
+		animation: foundAnimation 0.6s ease forwards;
+		pointer-events: none;
+	}
+
+	@keyframes foundAnimation {
+		0% {
+			transform: scale(1) rotate(0deg);
+		}
+		50% {
+			transform: scale(1.5) rotate(180deg);
+		}
+		100% {
+			transform: scale(0) rotate(360deg);
+			opacity: 1;
+		}
+	}
+
+	.modal {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.85);
+		z-index: 1000;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.modal.active {
+		display: flex;
+	}
+
+	.modal-content {
+		background: linear-gradient(
+			to bottom,
+			var(--lavender-200),
+			var(--lavender-700)
+		);
+		padding: var(--spacing-l) var(--spacing-s);
+		border-radius: var(--spacing-3xs);
+		max-width: 500px;
+		animation: modalAppear 0.2s ease-out;
+	}
+
+	@keyframes modalAppear {
+		from {
+			transform: scale(0.5);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	.modal-content h2 {
+		color: var(--black-500);
+		font-size: var(--text-step-1);
+		font-weight: 800;
+		padding-bottom: var(--spacing-2xs);
+	}
+
+	.modal-text {
+		color: var(--black-400);
+		font-size: var(--text-step--1);
+		line-height: 1.2;
+		text-wrap: balance;
+		padding-bottom: var(--spacing-xs);
+	}
+
+	.wallpaper-preview {
+		width: 100%;
+		max-width: 250px;
+		height: auto;
+		border-radius: var(--spacing-3xs);
+		margin: var(--spacing-s) auto;
+	}
+</style>
+
+<script>
+	function initScanner() {
+		const scannerTool = document.getElementById('scannerTool')
+		const hiddenContainer = document.getElementById('hiddenContainer')
+		const scannerCursor = document.getElementById('scannerCursor')
+		const giftItem = document.getElementById('giftItem')
+		const congratsModal = document.getElementById('congratsModal')
+		const modalContent = congratsModal?.querySelector('.modal-content')
+
+		if (!scannerTool || !hiddenContainer || !scannerCursor || !giftItem) {
+			return
+		}
+
+		let scannerActive = false
+		let giftFound = false
+		let isDragging = false
+
+		function randomizeGiftPosition() {
+			if (hiddenContainer && giftItem) {
+				const containerRect = hiddenContainer.getBoundingClientRect()
+				const maxX = containerRect.width - 50
+				const maxY = containerRect.height - 50
+
+				const randomX = Math.random() * maxX
+				const randomY = Math.random() * maxY
+
+				giftItem.style.left = randomX + 'px'
+				giftItem.style.top = randomY + 'px'
+			}
+		}
+
+		randomizeGiftPosition()
+
+		scannerTool.addEventListener('click', () => {
+			if (!giftFound) {
+				scannerActive = true
+				scannerTool.classList.add('active')
+				hiddenContainer.classList.add('scanner-active')
+				if ('ontouchstart' in window) {
+					scannerCursor.style.display = 'block'
+					const rect = hiddenContainer.getBoundingClientRect()
+					scannerCursor.style.left = rect.width / 2 + 'px'
+					scannerCursor.style.top = rect.height / 2 + 'px'
+				}
+			}
+		})
+
+		hiddenContainer.addEventListener('mousemove', (e) => {
+			if (scannerActive && !giftFound && !isDragging) {
+				const rect = hiddenContainer.getBoundingClientRect()
+				const x = e.clientX - rect.left
+				const y = e.clientY - rect.top
+
+				scannerCursor.style.left = x + 'px'
+				scannerCursor.style.top = y + 'px'
+			}
+		})
+		function updateScannerPosition(clientX: number, clientY: number) {
+			if (
+				scannerActive &&
+				!giftFound &&
+				scannerCursor &&
+				hiddenContainer
+			) {
+				const rect = hiddenContainer.getBoundingClientRect()
+				const x = clientX - rect.left
+				const y = clientY - rect.top
+
+				const clampedX = Math.max(0, Math.min(x, rect.width))
+				const clampedY = Math.max(0, Math.min(y, rect.height))
+
+				scannerCursor.style.left = clampedX + 'px'
+				scannerCursor.style.top = clampedY + 'px'
+				scannerCursor.style.display = 'block'
+
+				checkGiftCollision(clampedX, clampedY)
+			}
+		}
+
+		function checkGiftCollision(scannerX: number, scannerY: number) {
+			if (giftFound) return
+
+			if (giftItem && hiddenContainer) {
+				const giftRect = giftItem.getBoundingClientRect()
+				const containerRect = hiddenContainer.getBoundingClientRect()
+				const giftX =
+					giftRect.left - containerRect.left + giftRect.width / 2
+				const giftY =
+					giftRect.top - containerRect.top + giftRect.height / 2
+
+				const distance = Math.sqrt(
+					Math.pow(scannerX - giftX, 2) +
+						Math.pow(scannerY - giftY, 2)
+				)
+
+				if (distance < 40) {
+					giftFound = true
+					giftItem.classList.add('found')
+					setTimeout(() => {
+						congratsModal?.classList.add('active')
+					}, 600)
+				}
+			}
+		}
+
+		hiddenContainer.addEventListener('touchstart', (e) => {
+			if (scannerActive && !giftFound) {
+				isDragging = true
+				const touch = e.touches[0]
+				updateScannerPosition(touch.clientX, touch.clientY)
+			}
+		})
+
+		hiddenContainer.addEventListener('touchmove', (e) => {
+			if (isDragging) {
+				e.preventDefault()
+				const touch = e.touches[0]
+				updateScannerPosition(touch.clientX, touch.clientY)
+			}
+		})
+
+		hiddenContainer.addEventListener('touchend', () => {
+			isDragging = false
+		})
+
+		hiddenContainer.addEventListener('mouseleave', () => {
+			scannerCursor.style.display = 'none'
+		})
+
+		hiddenContainer.addEventListener('mouseenter', () => {
+			if (scannerActive && !giftFound) {
+				scannerCursor.style.display = 'block'
+			}
+		})
+
+		giftItem.addEventListener('mouseenter', () => {
+			if (scannerActive && congratsModal && !giftFound && !isDragging) {
+				giftFound = true
+				giftItem.classList.add('found')
+
+				setTimeout(() => {
+					congratsModal.classList.add('active')
+				}, 600)
+			}
+		})
+
+		congratsModal?.addEventListener('click', (e) => {
+			if (e.target === congratsModal) {
+				congratsModal.classList.remove('active')
+				scannerActive = false
+				giftFound = false
+				scannerTool.classList.remove('active')
+				hiddenContainer.classList.remove('scanner-active')
+				giftItem.classList.remove('found')
+				giftItem.style.opacity = '0'
+				scannerCursor.style.display = 'none'
+				randomizeGiftPosition()
+			}
+		})
+
+		modalContent?.addEventListener('click', (e) => {
+			e.stopPropagation()
+		})
+	}
+	initScanner()
+
+	document.addEventListener('astro:page-load', initScanner)
+</script>

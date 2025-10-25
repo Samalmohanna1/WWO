@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import eyes from '../assets/eyes.webp'
+import { getImage } from 'astro:assets'
+
+const eyesImg = await getImage({ src: eyes })
+const latin = 'Semper vigilant oculi in tenebris'
+const english = 'The eyes in the darkness are always watching'
+const arabic = 'العيون في الظلام تراقب دائماً'
+---
+
+<BaseLayout title='Language | Oct 21st'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 21 Language</h1>
+		</div>
+		<div
+			class='quote-container'
+			style={`background-image: url(${eyesImg.src}); background-size: cover; background-position: center;`}
+		>
+			<p class='quote latin'>{latin}</p>
+			<p class='quote english'>{english}</p>
+			<p class='quote arabic'>{arabic}</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	@font-face {
+		font-display: swap;
+		font-family: 'Rakkas';
+		font-weight: 400;
+		src: url(/fonts/Rakkas-Regular.ttf);
+	}
+	.container {
+		max-width: var(--max-content-w);
+	}
+
+	.quote-container {
+		min-height: 500px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+	.eyes {
+		position: absolute;
+		z-index: 0;
+	}
+
+	.quote {
+		position: absolute;
+		font-size: var(--text-step-2);
+		font-weight: 800;
+		font-family: 'Rakkas', serif;
+		line-height: 1.1;
+		text-transform: uppercase;
+		text-align: center;
+		text-wrap: balance;
+		text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.9);
+		max-width: 50%;
+		opacity: 0;
+		animation: fadeInOut 12s infinite;
+		z-index: 10;
+	}
+
+	@keyframes fadeInOut {
+		0% {
+			opacity: 0;
+		}
+		8% {
+			opacity: 1;
+		}
+		33% {
+			opacity: 1;
+		}
+		41% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+
+	.quote.latin {
+		animation-delay: 0s;
+	}
+
+	.quote.english {
+		animation-delay: 4s;
+	}
+
+	.quote.arabic {
+		font-size: var(--text-step-4);
+		direction: rtl;
+		animation-delay: 8s;
+	}
+</style>

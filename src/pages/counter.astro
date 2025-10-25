@@ -1,0 +1,14 @@
+---
+import PumpkinCounter from '../components/Counter'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Counter | Oct 24th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 24 Counter</h1>
+		</div>
+
+		<PumpkinCounter client:load />
+	</section>
+</BaseLayout>

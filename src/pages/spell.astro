@@ -1,0 +1,21 @@
+---
+import Hangman from '../components/Hangman'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Spell | Oct 27th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>
+				Day 27 Spell - Guess the spooky word before it's too late!
+			</h1>
+		</div>
+		<Hangman client:load />
+	</section>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: var(--max-content-w);
+	}
+</style>

@@ -27,7 +27,7 @@ export default {
         { id: 25, url: 'Empty', status: 'launched' },
         { id: 26, url: 'Texture', status: 'launched' },
         { id: 27, url: 'Spell', status: 'launched' },
-        { id: 28, url: 'Tables', status: 'coming soon' },
+        { id: 28, url: 'Tables', status: 'launched' },
         { id: 29, url: 'Surprise', status: 'coming soon' },
         { id: 30, url: 'Deprecated', status: 'coming soon' },
         { id: 31, url: 'Spooky', status: 'coming soon' },

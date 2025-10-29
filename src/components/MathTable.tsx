@@ -18,7 +18,7 @@ const keyStyle = {
 	fontSize: 'var(--text-step--1)',
 	fontWeight: '700',
 	border: 'none',
-	borderRadius: 8,
+	borderRadius: 4,
 	margin: 2,
 }
 
@@ -570,7 +570,7 @@ export default function MathTable() {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 'var(--spacing-3xs)',
-						padding: 'var(--spacing-xs)',
+						paddingBlock: 'var(--spacing-s)',
 						maxWidth: '600px',
 						marginInline: 'auto',
 					}}

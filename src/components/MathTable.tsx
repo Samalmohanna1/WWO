@@ -15,7 +15,8 @@ const keyStyle = {
 	height: 44,
 	background: 'var(--lavender-300)',
 	color: 'var(--black-500)',
-	fontSize: 'var(--text-step--2)',
+	fontSize: 'var(--text-step--1)',
+	fontWeight: '700',
 	border: 'none',
 	borderRadius: 8,
 	margin: 2,
@@ -569,7 +570,7 @@ export default function MathTable() {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 'var(--spacing-3xs)',
-						padding: 'var(--spacing-2xs)',
+						padding: 'var(--spacing-xs)',
 						maxWidth: '600px',
 						marginInline: 'auto',
 					}}

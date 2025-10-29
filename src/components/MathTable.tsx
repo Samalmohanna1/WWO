@@ -22,6 +22,7 @@ export default function MathTable() {
 	const nextIdRef = useRef(0)
 	const dropIntervalRef = useRef<NodeJS.Timeout | null>(null)
 	const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null)
+	const inputRefs = useRef<{ [key: number]: HTMLInputElement | null }>({})
 
 	const generateProblem = (): Problem => {
 		const num1 = Math.floor(Math.random() * 10) + 1
@@ -125,6 +126,21 @@ export default function MathTable() {
 		return 25
 	}
 
+	const handleInputFocus = (id: number) => {
+		if (!('ontouchstart' in window)) return
+
+		setTimeout(() => {
+			const input = inputRefs.current[id]
+
+			if (input) {
+				input.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center',
+				})
+			}
+		}, 300)
+	}
+
 	const handleAnswerChange = (id: number, value: string) => {
 		if (value !== '' && !/^\d+$/.test(value)) return
 
@@ -204,7 +220,7 @@ export default function MathTable() {
           display: flex;
           flex-direction: column-reverse;
           gap: 0;
-          min-height: inherit;
+          min-height: 450px;
         }
 
         .problem-row {
@@ -284,7 +300,7 @@ export default function MathTable() {
           align-items: center;
           justify-content: center;
           text-align: center;
-          min-height: inherit;
+          min-height: 450px;
         }
 
         .game-title {
@@ -328,7 +344,15 @@ export default function MathTable() {
 
         @media (max-width: 640px) {
           .game-board {
-            min-height: 430px;
+            min-height: 350px;
+            max-height: 350px;
+          }
+          .problems-container {
+            min-height: 350px;
+          }
+          .start-screen,
+          .game-over-screen {
+            min-height: 350px;
           }
           .problem-row {
             padding-block: var(--spacing-xs);
@@ -410,11 +434,18 @@ export default function MathTable() {
 									<p className='problem-cell'>=</p>
 									<div className='problem-cell'>
 										<input
+											ref={(el) => {
+												inputRefs.current[problem.id] =
+													el
+											}}
 											type='text'
 											inputMode='numeric'
 											pattern='[0-9]*'
 											className='problem-input'
 											value={problem.userAnswer}
+											onFocus={() =>
+												handleInputFocus(problem.id)
+											}
 											onChange={(e) =>
 												handleAnswerChange(
 													problem.id,

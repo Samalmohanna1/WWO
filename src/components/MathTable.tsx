@@ -18,7 +18,7 @@ export default function MathTable() {
 	const [combo, setCombo] = useState(0)
 	const [shakingId, setShakingId] = useState<number | null>(null)
 	const [clearingId, setClearingId] = useState<number | null>(null)
-	const [nextDropIn, setNextDropIn] = useState(10)
+	const [nextDropIn, setNextDropIn] = useState(8)
 	const nextIdRef = useRef(0)
 	const dropIntervalRef = useRef<NodeJS.Timeout | null>(null)
 	const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -55,7 +55,7 @@ export default function MathTable() {
 
 			return [...prev, newProblem]
 		})
-		setNextDropIn(10)
+		setNextDropIn(8)
 	}
 
 	const startGame = () => {
@@ -65,7 +65,7 @@ export default function MathTable() {
 		setGameOver(false)
 		setGameStarted(true)
 		nextIdRef.current = 0
-		setNextDropIn(10)
+		setNextDropIn(8)
 
 		setTimeout(() => addNewProblem(), 100)
 	}
@@ -76,13 +76,14 @@ export default function MathTable() {
 		setCombo(0)
 		setGameOver(false)
 		setGameStarted(false)
-		setNextDropIn(10)
+		setNextDropIn(8)
 		if (dropIntervalRef.current) {
 			clearInterval(dropIntervalRef.current)
 		}
 		if (countdownIntervalRef.current) {
 			clearInterval(countdownIntervalRef.current)
 		}
+		startGame()
 	}
 
 	useEffect(() => {
@@ -91,7 +92,7 @@ export default function MathTable() {
 		countdownIntervalRef.current = setInterval(() => {
 			setNextDropIn((prev) => {
 				if (prev <= 1) {
-					return 10
+					return 8
 				}
 				return prev - 1
 			})
@@ -109,7 +110,7 @@ export default function MathTable() {
 
 		dropIntervalRef.current = setInterval(() => {
 			addNewProblem()
-		}, 10000)
+		}, 8000)
 
 		return () => {
 			if (dropIntervalRef.current) {
@@ -162,7 +163,14 @@ export default function MathTable() {
 
 				setClearingId(id)
 				setTimeout(() => {
-					setProblems((prev) => prev.filter((p) => p.id !== id))
+					setProblems((prev) => {
+						const filtered = prev.filter((p) => p.id !== id)
+						// If no problems left, add a new one immediately
+						if (filtered.length === 0) {
+							setTimeout(() => addNewProblem(), 100)
+						}
+						return filtered
+					})
 					setClearingId(null)
 				}, 300)
 			} else if (value.length >= problem.answer.toString().length) {
@@ -185,7 +193,7 @@ export default function MathTable() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: var(--spacing-s);
+          padding: var(--spacing-2xs) var(--spacing-s);
         }
         .header-left {
           display: flex;
@@ -200,13 +208,6 @@ export default function MathTable() {
           color: var(--orange-300);
         }
 
-        .timer-display {
-          font-size: var(--text-step--2);
-          font-weight: 600;
-          color: var(--orange-300);
-          text-align: center;
-        }
-
         .game-board {
           background: var(--black-500);
           border: 4px double var(--black-300);
@@ -214,13 +215,15 @@ export default function MathTable() {
           min-height: 450px;
           position: relative;
           overflow: hidden;
+          display: flex;
+          flex-direction: column;
         }
 
         .problems-container {
           display: flex;
           flex-direction: column-reverse;
           gap: 0;
-          min-height: 450px;
+          flex: 1;
         }
 
         .problem-row {
@@ -296,16 +299,14 @@ export default function MathTable() {
         .game-over-screen {
           display: flex;
           flex-direction: column;
-          gap: var(--spacing-s);
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          min-height: 450px;
+          gap: var(--spacing-l);
+		  padding: var(--spacing-s);
         }
 
         .game-title {
-          font-size: var(--text-step-1);
+          font-size: var(--text-step-3);
           font-weight: 700;
+		  text-align: center;
         }
 
         .game-instructions {
@@ -313,7 +314,6 @@ export default function MathTable() {
           text-align: left;
           max-width: 35ch;
           color: var(--black-200);
-          margin-inline: auto;
           & li {
             line-height: 1.2;
             margin-bottom: var(--spacing-2xs);
@@ -337,23 +337,13 @@ export default function MathTable() {
         }
 
         .final-score {
-          font-size: var(--text-step-2);
+          font-size: var(--text-step-1);
           color: var(--orange-500);
           font-weight: 700;
+		  text-align: center;
         }
 
         @media (max-width: 640px) {
-          .game-board {
-            min-height: 350px;
-            max-height: 350px;
-          }
-          .problems-container {
-            min-height: 350px;
-          }
-          .start-screen,
-          .game-over-screen {
-            min-height: 350px;
-          }
           .problem-row {
             padding-block: var(--spacing-xs);
           }
@@ -376,7 +366,7 @@ export default function MathTable() {
 								Solve multiplication problems before the board
 								fills up.
 							</li>
-							<li>New problems drop every 10 seconds.</li>
+							<li>New problems drop every 8 seconds.</li>
 							<li>Answer quickly for bonus points.</li>
 						</ul>
 						<button className='game-button' onClick={startGame}>
@@ -405,7 +395,7 @@ export default function MathTable() {
 								</p>
 							)}
 						</div>
-						<p className='timer-display'>{nextDropIn}</p>
+						<p>{nextDropIn}</p>
 					</div>
 					<div className='game-board'>
 						<div className='problems-container'>

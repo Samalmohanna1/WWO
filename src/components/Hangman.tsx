@@ -91,7 +91,7 @@ export default function Hangman() {
 					<span style={styles.statusText}>
 						{gameStatus === 'won'
 							? '🎃 Correct!'
-							: `💀 Game Over! The word was: ${word}`}
+							: `💀 The word was: ${word}`}
 					</span>
 				</div>
 			)}
@@ -136,7 +136,7 @@ export default function Hangman() {
 			</div>
 
 			<button onClick={startNewGame} style={styles.newGameButton}>
-				New Game
+				New Word
 			</button>
 		</div>
 	)

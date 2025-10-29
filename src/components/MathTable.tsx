@@ -11,11 +11,11 @@ interface Problem {
 }
 
 const keyStyle = {
-	width: 40,
-	height: 40,
-	background: '#444',
-	color: '#fff',
-	fontSize: '1.5em',
+	width: 44,
+	height: 44,
+	background: 'var(--lavender-300)',
+	color: 'var(--black-500)',
+	fontSize: 'var(--text-step--2)',
 	border: 'none',
 	borderRadius: 8,
 	margin: 2,
@@ -80,7 +80,6 @@ export default function MathTable() {
 		nextIdRef.current = 0
 		setNextDropIn(8)
 		setTimeout(() => addNewProblem(), 100)
-		// Optionally auto-select first input after adding
 		setTimeout(() => {
 			if (isTouchScreen) {
 				setActiveInputId(0)
@@ -138,7 +137,6 @@ export default function MathTable() {
 		}
 	}, [gameStarted, gameOver])
 
-	// Helper to get the index of the first problem (optional, for auto-select)
 	useEffect(() => {
 		if (
 			isTouchScreen &&
@@ -159,7 +157,6 @@ export default function MathTable() {
 		return 25
 	}
 
-	// Only allow this to scroll-to on desktop, not mobile
 	const handleInputFocus = (id: number) => {
 		if (!('ontouchstart' in window)) {
 			setTimeout(() => {
@@ -174,7 +171,6 @@ export default function MathTable() {
 		}
 	}
 
-	// Desktop/keyboard handler (no changes)
 	const handleAnswerChange = (id: number, value: string) => {
 		if (value !== '' && !/^\d+$/.test(value)) return
 
@@ -213,7 +209,6 @@ export default function MathTable() {
 		}
 	}
 
-	// Mobile number pad handler
 	const handleMobileKeypadInput = (val: string) => {
 		if (activeInputId == null) return
 
@@ -230,7 +225,6 @@ export default function MathTable() {
 			})
 		)
 
-		// Simulate answer checking as user types
 		const problem = problems.find((p) => p.id === activeInputId)
 		if (problem) {
 			const value =
@@ -532,7 +526,6 @@ export default function MathTable() {
 													: '')
 											}
 											value={problem.userAnswer}
-											// KEY: Disable native keyboard and route through pad
 											readOnly={isTouchScreen}
 											tabIndex={0}
 											onFocus={() => {
@@ -563,7 +556,6 @@ export default function MathTable() {
 				</>
 			)}
 
-			{/* Mobile number keypad */}
 			{isTouchScreen && gameStarted && !gameOver && (
 				<div
 					style={{
@@ -571,25 +563,25 @@ export default function MathTable() {
 						left: 0,
 						right: 0,
 						bottom: 0,
-						background: '#232323',
-						borderTop: '2px solid #eee',
+						background: 'var(--black-800)',
+						borderTop: '2px solid var(--black-100)',
 						zIndex: 100,
 						display: 'flex',
 						flexDirection: 'column',
-						gap: '0.25em',
-						padding: '0.5em 0.25em',
+						gap: 'var(--spacing-3xs)',
+						padding: 'var(--spacing-2xs)',
 						maxWidth: '600px',
-						margin: '0 auto',
+						marginInline: 'auto',
 					}}
 				>
 					<div
 						style={{
 							display: 'flex',
-							gap: '0.25em',
+							gap: 'var(--spacing-3xs)',
 							justifyContent: 'center',
 						}}
 					>
-						{[1, 2, 3].map((n) => (
+						{[1, 2, 3, 4].map((n) => (
 							<button
 								key={n}
 								style={keyStyle}
@@ -605,11 +597,11 @@ export default function MathTable() {
 					<div
 						style={{
 							display: 'flex',
-							gap: '0.25em',
+							gap: 'var(--spacing-3xs)',
 							justifyContent: 'center',
 						}}
 					>
-						{[4, 5, 6].map((n) => (
+						{[5, 6, 7, 8].map((n) => (
 							<button
 								key={n}
 								style={keyStyle}
@@ -625,11 +617,11 @@ export default function MathTable() {
 					<div
 						style={{
 							display: 'flex',
-							gap: '0.25em',
+							gap: 'var(--spacing-3xs)',
 							justifyContent: 'center',
 						}}
 					>
-						{[7, 8, 9].map((n) => (
+						{[9, 0].map((n) => (
 							<button
 								key={n}
 								style={keyStyle}
@@ -641,14 +633,6 @@ export default function MathTable() {
 								{n}
 							</button>
 						))}
-					</div>
-					<div
-						style={{
-							display: 'flex',
-							gap: '0.25em',
-							justifyContent: 'center',
-						}}
-					>
 						<button
 							style={keyStyle}
 							onClick={() => handleMobileKeypadInput('back')}
@@ -656,14 +640,6 @@ export default function MathTable() {
 						>
 							⌫
 						</button>
-						<button
-							style={keyStyle}
-							onClick={() => handleMobileKeypadInput('0')}
-							tabIndex={-1}
-						>
-							0
-						</button>
-						<span style={{ width: 40 }} />
 					</div>
 				</div>
 			)}

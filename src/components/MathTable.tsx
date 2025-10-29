@@ -10,6 +10,17 @@ interface Problem {
 	isDropping: boolean
 }
 
+const keyStyle = {
+	width: 40,
+	height: 40,
+	background: '#444',
+	color: '#fff',
+	fontSize: '1.5em',
+	border: 'none',
+	borderRadius: 8,
+	margin: 2,
+}
+
 export default function MathTable() {
 	const [problems, setProblems] = useState<Problem[]>([])
 	const [score, setScore] = useState(0)
@@ -23,6 +34,9 @@ export default function MathTable() {
 	const dropIntervalRef = useRef<NodeJS.Timeout | null>(null)
 	const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null)
 	const inputRefs = useRef<{ [key: number]: HTMLInputElement | null }>({})
+	const [activeInputId, setActiveInputId] = useState<number | null>(null)
+	const isTouchScreen =
+		typeof window !== 'undefined' && 'ontouchstart' in window
 
 	const generateProblem = (): Problem => {
 		const num1 = Math.floor(Math.random() * 10) + 1
@@ -52,7 +66,6 @@ export default function MathTable() {
 					)
 				)
 			}, 1000)
-
 			return [...prev, newProblem]
 		})
 		setNextDropIn(8)
@@ -66,8 +79,13 @@ export default function MathTable() {
 		setGameStarted(true)
 		nextIdRef.current = 0
 		setNextDropIn(8)
-
 		setTimeout(() => addNewProblem(), 100)
+		// Optionally auto-select first input after adding
+		setTimeout(() => {
+			if (isTouchScreen) {
+				setActiveInputId(0)
+			}
+		}, 200)
 	}
 
 	const resetGame = () => {
@@ -83,6 +101,7 @@ export default function MathTable() {
 		if (countdownIntervalRef.current) {
 			clearInterval(countdownIntervalRef.current)
 		}
+		setActiveInputId(null)
 		startGame()
 	}
 
@@ -119,6 +138,19 @@ export default function MathTable() {
 		}
 	}, [gameStarted, gameOver])
 
+	// Helper to get the index of the first problem (optional, for auto-select)
+	useEffect(() => {
+		if (
+			isTouchScreen &&
+			gameStarted &&
+			!gameOver &&
+			activeInputId == null &&
+			problems.length > 0
+		) {
+			setActiveInputId(problems[problems.length - 1].id)
+		}
+	}, [problems, gameStarted, gameOver, isTouchScreen, activeInputId])
+
 	const calculatePoints = (timeElapsed: number): number => {
 		const seconds = timeElapsed / 1000
 		if (seconds <= 3) return 100
@@ -127,21 +159,22 @@ export default function MathTable() {
 		return 25
 	}
 
+	// Only allow this to scroll-to on desktop, not mobile
 	const handleInputFocus = (id: number) => {
-		if (!('ontouchstart' in window)) return
-
-		setTimeout(() => {
-			const input = inputRefs.current[id]
-
-			if (input) {
-				input.scrollIntoView({
-					behavior: 'smooth',
-					block: 'center',
-				})
-			}
-		}, 300)
+		if (!('ontouchstart' in window)) {
+			setTimeout(() => {
+				const input = inputRefs.current[id]
+				if (input) {
+					input.scrollIntoView({
+						behavior: 'smooth',
+						block: 'center',
+					})
+				}
+			}, 300)
+		}
 	}
 
+	// Desktop/keyboard handler (no changes)
 	const handleAnswerChange = (id: number, value: string) => {
 		if (value !== '' && !/^\d+$/.test(value)) return
 
@@ -165,7 +198,6 @@ export default function MathTable() {
 				setTimeout(() => {
 					setProblems((prev) => {
 						const filtered = prev.filter((p) => p.id !== id)
-						// If no problems left, add a new one immediately
 						if (filtered.length === 0) {
 							setTimeout(() => addNewProblem(), 100)
 						}
@@ -181,181 +213,242 @@ export default function MathTable() {
 		}
 	}
 
+	// Mobile number pad handler
+	const handleMobileKeypadInput = (val: string) => {
+		if (activeInputId == null) return
+
+		setProblems((prev) =>
+			prev.map((p) => {
+				if (p.id !== activeInputId) return p
+				let userAnswer = p.userAnswer
+				if (val === 'back') {
+					userAnswer = userAnswer.slice(0, -1)
+				} else if (userAnswer.length < 4) {
+					userAnswer = userAnswer + val
+				}
+				return { ...p, userAnswer }
+			})
+		)
+
+		// Simulate answer checking as user types
+		const problem = problems.find((p) => p.id === activeInputId)
+		if (problem) {
+			const value =
+				val === 'back'
+					? problem.userAnswer.slice(0, -1)
+					: problem.userAnswer + (val !== 'back' ? val : '')
+			if (value !== '') {
+				const userNum = parseInt(value)
+				if (userNum === problem.answer) {
+					const timeElapsed = Date.now() - problem.timestamp
+					const points = calculatePoints(timeElapsed)
+					const comboMultiplier = 1 + combo * 0.5
+					const totalPoints = Math.floor(points * comboMultiplier)
+
+					setScore((prev) => prev + totalPoints)
+					setCombo((prev) => prev + 1)
+					setClearingId(activeInputId)
+					setTimeout(() => {
+						setProblems((prev) => {
+							const filtered = prev.filter(
+								(p) => p.id !== activeInputId
+							)
+							if (filtered.length === 0) {
+								setTimeout(() => addNewProblem(), 100)
+							}
+							return filtered
+						})
+						setClearingId(null)
+					}, 300)
+					setActiveInputId(null)
+				} else if (
+					value.length >= problem.answer.toString().length &&
+					userNum !== problem.answer
+				) {
+					setCombo(0)
+					setShakingId(activeInputId)
+					setTimeout(() => setShakingId(null), 500)
+				}
+			}
+		}
+	}
+
 	return (
 		<div className='game-container'>
 			<style>{`
-        .game-container {
-          max-width: 600px;
-          margin-inline: auto;
-        }
+            .game-container {
+                max-width: 600px;
+                margin-inline: auto;
+            }
 
-        .game-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: var(--spacing-2xs) var(--spacing-s);
-        }
-        .header-left {
-          display: flex;
-          gap: var(--spacing-s);
-          align-items: center;
-        }
-        .score-display {
-          font-size: var(--text-step--1);
-        }
-        .combo-display {
-          font-size: var(--text-step--2);
-          color: var(--orange-300);
-        }
+            .game-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: var(--spacing-2xs) var(--spacing-s);
+            }
+            .header-left {
+                display: flex;
+                gap: var(--spacing-s);
+                align-items: center;
+            }
+            .score-display {
+                font-size: var(--text-step--1);
+            }
+            .combo-display {
+                font-size: var(--text-step--2);
+                color: var(--orange-300);
+            }
 
-        .game-board {
-          background: var(--black-500);
-          border: 4px double var(--black-300);
-          border-radius: var(--spacing-3xs);
-          min-height: 450px;
-          position: relative;
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-        }
+            .game-board {
+                background: var(--black-500);
+                border: 4px double var(--black-300);
+                border-radius: var(--spacing-3xs);
+                min-height: 450px;
+                position: relative;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
 
-        .problems-container {
-          display: flex;
-          flex-direction: column-reverse;
-          gap: 0;
-          flex: 1;
-        }
+            .problems-container {
+                display: flex;
+                flex-direction: column-reverse;
+                gap: 0;
+                flex: 1;
+            }
 
-        .problem-row {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr auto 2fr;
-          align-items: center;
-          gap: var(--spacing-2xs);
-          padding: var(--spacing-3xs) var(--spacing-s);
-          border-top: 2px solid var(--black-300);
-          transition: all 0.3s ease;
-        }
+            .problem-row {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr auto 2fr;
+                align-items: center;
+                gap: var(--spacing-2xs);
+                padding: var(--spacing-3xs) var(--spacing-s);
+                border-top: 2px solid var(--black-300);
+                transition: all 0.3s ease;
+            }
 
-        .problem-row.dropping {
-          animation: dropDown 1s ease-out;
-        }
+            .problem-row.dropping {
+                animation: dropDown 1s ease-out;
+            }
 
-        @keyframes dropDown {
-          from {
-            transform: translateY(-400px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
+            @keyframes dropDown {
+                from {
+                    transform: translateY(-400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
 
-        .problem-row.clearing {
-          opacity: 0;
-          transform: scale(0.8);
-        }
+            .problem-row.clearing {
+                opacity: 0;
+                transform: scale(0.8);
+            }
 
-        .problem-row.shaking {
-          animation: shake 0.5s;
-          background: var(--pink-300);
-        }
+            .problem-row.shaking {
+                animation: shake 0.5s;
+                background: var(--pink-300);
+            }
 
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-10px); }
-          75% { transform: translateX(10px); }
-        }
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
 
-        .problem-cell {
-          text-align: center;
-          font-size: var(--text-step-1);
-          font-weight: 600;
-          color: var(--white-500);
-        }
+            .problem-cell {
+                text-align: center;
+                font-size: var(--text-step-1);
+                font-weight: 600;
+                color: var(--white-500);
+            }
 
-        .problem-input {
-          width: 100%;
-          max-width: 80px;
-          padding: var(--spacing-3xs);
-          font-size: var(--text-step-1);
-          font-weight: 600;
-          text-align: center;
-          border: 2px solid var(--lavender-300);
-          border-radius: 6px;
-          background: var(--white-50);
-          color: var(--black-500);
-          transition: all 0.2s;
-        }
+            .problem-input {
+                width: 100%;
+                max-width: 80px;
+                padding: var(--spacing-3xs);
+                font-size: var(--text-step-1);
+                font-weight: 600;
+                text-align: center;
+                border: 2px solid var(--lavender-300);
+                border-radius: 6px;
+                background: var(--white-50);
+                color: var(--black-500);
+                transition: all 0.2s;
+            }
+            .problem-input:focus {
+                outline: none;
+                border-color: var(--lavender-500);
+                background: var(--white-50);
+                box-shadow: 0 0 0 3px var(--lavender-100);
+            }
+            .problem-input.selected {
+                border-color: var(--lime-500);
+                box-shadow: 0 0 0 3px var(--lime-100);
+            }
 
-        .problem-input:focus {
-          outline: none;
-          border-color: var(--lavender-500);
-          background: var(--white-50);
-          box-shadow: 0 0 0 3px var(--lavender-100);
-        }
+            .start-screen,
+            .game-over-screen {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-l);
+                padding: var(--spacing-s);
+            }
 
-        .start-screen,
-        .game-over-screen {
-          display: flex;
-          flex-direction: column;
-          gap: var(--spacing-l);
-		  padding: var(--spacing-s);
-        }
+            .game-title {
+                font-size: var(--text-step-3);
+                font-weight: 700;
+                text-align: center;
+            }
 
-        .game-title {
-          font-size: var(--text-step-3);
-          font-weight: 700;
-		  text-align: center;
-        }
+            .game-instructions {
+                font-size: var(--text-step-0);
+                text-align: left;
+                max-width: 35ch;
+                color: var(--black-200);
+                & li {
+                    line-height: 1.2;
+                    margin-bottom: var(--spacing-2xs);
+                }
+            }
 
-        .game-instructions {
-          font-size: var(--text-step-0);
-          text-align: left;
-          max-width: 35ch;
-          color: var(--black-200);
-          & li {
-            line-height: 1.2;
-            margin-bottom: var(--spacing-2xs);
-          }
-        }
+            .game-button {
+                padding: var(--spacing-2xs) var(--spacing-s);
+                font-size: var(--text-step-0);
+                font-weight: 600;
+                color: var(--black-700);
+                background: var(--lime-600);
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .game-button:hover {
+                background: var(--lime-700);
+            }
+            .final-score {
+                font-size: var(--text-step-1);
+                color: var(--orange-500);
+                font-weight: 700;
+                text-align: center;
+            }
 
-        .game-button {
-          padding: var(--spacing-2xs) var(--spacing-s);
-          font-size: var(--text-step-0);
-          font-weight: 600;
-          color: var(--black-700);
-          background: var(--lime-600);
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .game-button:hover {
-          background: var(--lime-700);
-        }
-
-        .final-score {
-          font-size: var(--text-step-1);
-          color: var(--orange-500);
-          font-weight: 700;
-		  text-align: center;
-        }
-
-        @media (max-width: 640px) {
-          .problem-row {
-            padding-block: var(--spacing-xs);
-          }
-          .problem-cell {
-            font-size: var(--text-step-0);
-          }
-          .problem-input {
-            max-width: 60px;
-            font-size: var(--text-step-0);
-          }
-        }
-      `}</style>
+            @media (max-width: 640px) {
+                .problem-row {
+                    padding-block: var(--spacing-xs);
+                }
+                .problem-cell {
+                    font-size: var(--text-step-0);
+                }
+                .problem-input {
+                    max-width: 60px;
+                    font-size: var(--text-step-0);
+                }
+            }
+            `}</style>
 
 			{!gameStarted ? (
 				<div className='game-board'>
@@ -431,16 +524,34 @@ export default function MathTable() {
 											type='text'
 											inputMode='numeric'
 											pattern='[0-9]*'
-											className='problem-input'
-											value={problem.userAnswer}
-											onFocus={() =>
-												handleInputFocus(problem.id)
+											className={
+												`problem-input` +
+												(isTouchScreen &&
+												activeInputId === problem.id
+													? ' selected'
+													: '')
 											}
-											onChange={(e) =>
-												handleAnswerChange(
-													problem.id,
-													e.target.value
-												)
+											value={problem.userAnswer}
+											// KEY: Disable native keyboard and route through pad
+											readOnly={isTouchScreen}
+											tabIndex={0}
+											onFocus={() => {
+												if (isTouchScreen)
+													setActiveInputId(problem.id)
+												handleInputFocus(problem.id)
+											}}
+											onClick={() => {
+												if (isTouchScreen)
+													setActiveInputId(problem.id)
+											}}
+											onChange={
+												!isTouchScreen
+													? (e) =>
+															handleAnswerChange(
+																problem.id,
+																e.target.value
+															)
+													: undefined
 											}
 											disabled={clearingId === problem.id}
 										/>
@@ -450,6 +561,111 @@ export default function MathTable() {
 						</div>
 					</div>
 				</>
+			)}
+
+			{/* Mobile number keypad */}
+			{isTouchScreen && gameStarted && !gameOver && (
+				<div
+					style={{
+						position: 'fixed',
+						left: 0,
+						right: 0,
+						bottom: 0,
+						background: '#232323',
+						borderTop: '2px solid #eee',
+						zIndex: 100,
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '0.25em',
+						padding: '0.5em 0.25em',
+						maxWidth: '600px',
+						margin: '0 auto',
+					}}
+				>
+					<div
+						style={{
+							display: 'flex',
+							gap: '0.25em',
+							justifyContent: 'center',
+						}}
+					>
+						{[1, 2, 3].map((n) => (
+							<button
+								key={n}
+								style={keyStyle}
+								onClick={() =>
+									handleMobileKeypadInput(String(n))
+								}
+								tabIndex={-1}
+							>
+								{n}
+							</button>
+						))}
+					</div>
+					<div
+						style={{
+							display: 'flex',
+							gap: '0.25em',
+							justifyContent: 'center',
+						}}
+					>
+						{[4, 5, 6].map((n) => (
+							<button
+								key={n}
+								style={keyStyle}
+								onClick={() =>
+									handleMobileKeypadInput(String(n))
+								}
+								tabIndex={-1}
+							>
+								{n}
+							</button>
+						))}
+					</div>
+					<div
+						style={{
+							display: 'flex',
+							gap: '0.25em',
+							justifyContent: 'center',
+						}}
+					>
+						{[7, 8, 9].map((n) => (
+							<button
+								key={n}
+								style={keyStyle}
+								onClick={() =>
+									handleMobileKeypadInput(String(n))
+								}
+								tabIndex={-1}
+							>
+								{n}
+							</button>
+						))}
+					</div>
+					<div
+						style={{
+							display: 'flex',
+							gap: '0.25em',
+							justifyContent: 'center',
+						}}
+					>
+						<button
+							style={keyStyle}
+							onClick={() => handleMobileKeypadInput('back')}
+							tabIndex={-1}
+						>
+							⌫
+						</button>
+						<button
+							style={keyStyle}
+							onClick={() => handleMobileKeypadInput('0')}
+							tabIndex={-1}
+						>
+							0
+						</button>
+						<span style={{ width: 40 }} />
+					</div>
+				</div>
 			)}
 		</div>
 	)

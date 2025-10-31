@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Deprecated | Oct 30th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 30 Deprecated</h1>
+		</div>
+		<marquee class='marquee'>
+			&#128123; Hello, this is the humble HTML
+			&lt;marquee&gt;&lt;/marquee&gt; tag. If I'm not working on your
+			browser it's because I'm deprecated. &#128123;
+		</marquee>
+	</section>
+</BaseLayout>
+
+<style>
+	.marquee {
+		color: var(--black-500);
+		background: linear-gradient(
+			to right,
+			var(--lime-800),
+			var(--lime-600),
+			var(--lime-800)
+		);
+		border-radius: var(--spacing-3xs);
+		padding-block: var(--spacing-m);
+		font-family: 'Rakkas', sans-serif;
+		font-size: var(--text-step-3);
+		font-weight: 800;
+	}
+</style>

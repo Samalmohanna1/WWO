@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { Image } from 'astro:assets'
+import mock from '../assets/surprise-mock.png'
+import wallpaper from '../assets/sleepysam-wwo25-surprise-gift.png'
+---
+
+<BaseLayout title='Surprise | Oct 29th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 29 Surprise</h1>
+		</div>
+
+		<div class='surprise-container'>
+			<h2 class='text-h'>Surprise! &#128123;</h2>
+			<p class='text-p'>
+				Click the image to download your free wallpaper!
+			</p>
+			<a class='link' href={wallpaper.src} download>
+				<Image
+					class='wallpaper-preview'
+					src={mock}
+					alt='Your Wallpaper'
+					id='wallpaperPreview'
+				/>
+			</a>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.surprise-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		background-image: linear-gradient(
+			145deg,
+			var(--orange-300),
+			var(--orange-800)
+		);
+		padding: var(--spacing-xl) var(--spacing-s);
+		border-radius: var(--spacing-3xs);
+	}
+
+	.text-h {
+		font-size: var(--text-step-2);
+		font-weight: 800;
+		padding-bottom: var(--spacing-xs);
+		color: var(--black-500);
+	}
+	.text-p {
+		font-size: var(--text-step--1);
+		padding-bottom: var(--spacing-m);
+		color: var(--black-500);
+	}
+	.link {
+		display: inline-block;
+	}
+	.wallpaper-preview {
+		width: 100%;
+		max-width: 250px;
+		height: auto;
+		border-radius: var(--spacing-3xs);
+	}
+</style>

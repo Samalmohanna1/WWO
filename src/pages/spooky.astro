@@ -1,0 +1,88 @@
+---
+import bubble from '../assets/bubble.png'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Spooky | Oct 31st'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 31 Spooky</h1>
+		</div>
+
+		<div
+			id='bubble'
+			class='bubble'
+			style={`background-image: url('${bubble.src}');`}
+		>
+		</div>
+	</section>
+</BaseLayout>
+
+<script>
+	function initBubbleAnimation() {
+		const bubble = document.getElementById('bubble')
+		if (!bubble) return
+
+		let isAnimating = false
+
+		bubble.addEventListener('click', () => {
+			if (isAnimating) return
+
+			isAnimating = true
+
+			bubble.classList.add('popping')
+
+			setTimeout(() => {
+				bubble.classList.remove('popping')
+				isAnimating = false
+			}, 900)
+		})
+	}
+
+	initBubbleAnimation()
+	document.addEventListener('astro:page-load', () => {
+		initBubbleAnimation()
+	})
+</script>
+
+<style>
+	.bubble {
+		width: 325px;
+		height: 307px;
+		background-repeat: no-repeat;
+		background-size: auto 100%;
+		background-position: 0 0;
+		cursor: pointer;
+		animation: float 3s ease-in-out infinite;
+	}
+
+	.bubble.popping {
+		animation:
+			spritePop 0.8s steps(6) forwards,
+			fadeOut 1s 0.5s forwards;
+	}
+	@keyframes float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-15px);
+		}
+	}
+
+	@keyframes spritePop {
+		from {
+			background-position: 0 0;
+		}
+		to {
+			background-position: -3900px 0;
+		}
+	}
+
+	@keyframes fadeOut {
+		to {
+			opacity: 0;
+		}
+	}
+</style>

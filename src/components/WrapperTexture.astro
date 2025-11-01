@@ -1,0 +1,66 @@
+---
+type Props = {
+	class?: string
+	pattern?: 'Cotton' | 'Dust' | 'Grunge' | 'Paper'
+	blend?: string
+	opacity?: number
+}
+
+const {
+	class: className = '',
+	pattern = 'Paper',
+	blend = '',
+	opacity = 1,
+} = Astro.props as Props
+
+const patterns = {
+	Cotton: `
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background-image: url('${import.meta.env.BASE_URL}paper/Cotton.png');
+		background-repeat: repeat;
+		opacity: ${opacity};
+        mix-blend-mode: ${blend};
+  `,
+	Dust: `
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background-image: url('${import.meta.env.BASE_URL}paper/Dust.png');
+		background-repeat: repeat;
+		opacity: ${opacity};
+        mix-blend-mode: ${blend};
+  `,
+	Grunge: `
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background-image: url('${import.meta.env.BASE_URL}paper/Grunge.png');
+		background-repeat: repeat;
+		opacity: ${opacity};
+        mix-blend-mode: ${blend};
+`,
+	Paper: `
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background-image: url('${import.meta.env.BASE_URL}paper/Paper-Texture.png');
+		background-repeat: repeat;
+		opacity: ${opacity};
+        mix-blend-mode: ${blend};
+`,
+}
+const style = patterns[pattern] || patterns.Paper
+---
+
+<div class='wrapper'>
+	<div class={className} style={style}></div>
+	<slot />
+</div>
+
+<style>
+	.wrapper {
+		position: relative;
+	}
+</style>

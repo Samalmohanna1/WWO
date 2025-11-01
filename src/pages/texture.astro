@@ -1,0 +1,45 @@
+---
+import WrapperTexture from '../components/WrapperTexture.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title='Texture | Oct 26th'>
+	<section class='container'>
+		<div class='controls'>
+			<h1 class='heading'>Day 26 Texture</h1>
+		</div>
+		<div class='texture-grid'>
+			<WrapperTexture pattern='Cotton'>
+				<div class='box'>Soft</div>
+			</WrapperTexture>
+
+			<WrapperTexture pattern='Dust'>
+				<div class='box'>Grainy</div>
+			</WrapperTexture>
+
+			<WrapperTexture pattern='Grunge' blend='screen'>
+				<div class='box'>Denim</div>
+			</WrapperTexture>
+			<WrapperTexture pattern='Paper'>
+				<div class='box'>Paper</div>
+			</WrapperTexture>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.container {
+		max-width: var(--max-content-w);
+	}
+	.texture-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: var(--spacing-s);
+	}
+	.box {
+		aspect-ratio: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>

@@ -30,6 +30,6 @@ export default {
         { id: 28, url: 'Tables', status: 'launched' },
         { id: 29, url: 'Surprise', status: 'launched' },
         { id: 30, url: 'Deprecated', status: 'launched' },
-        { id: 31, url: 'Spooky', status: 'coming soon' },
+        { id: 31, url: 'Spooky', status: 'launched' },
     ]
 }
